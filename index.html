@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pangestu Anton Widodo — S1 Teknik Informatika ITERA</title>
-    <meta name="description" content="Anton Portfolio">
+    <title>Pangestu Anton Widodo — Informatics Engineering @ ITERA</title>
+    <meta name="description" content="Pangestu Anton Widodo Personal Portfolio Website">
     <link
         href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
         rel="stylesheet">
@@ -23,6 +23,7 @@
         <nav class="nav-links" id="navLinks">
             <a href="#about" class="nav-link active">About</a>
             <a href="#education" class="nav-link">Education</a>
+            <a href="#experience" class="nav-link">Experience</a>
             <a href="#skills" class="nav-link">Skills</a>
             <a href="#projects" class="nav-link">Projects</a>
             <a href="#contact" class="nav-link">
@@ -41,6 +42,7 @@
     <div class="mobile-menu" id="mobileMenu">
         <a href="#about" class="mobile-link">About</a>
         <a href="#education" class="mobile-link">Education</a>
+        <a href="#experience" class="mobile-link">Experience</a>
         <a href="#skills" class="mobile-link">Skills</a>
         <a href="#projects" class="mobile-link">Projects</a>
         <a href="#contact" class="mobile-link">Contact</a>
@@ -62,10 +64,7 @@
             </h1>
 
             <p class="hero-desc">
-                I am an undergraduate Informatics Engineering student at Institut Teknologi Sumatera (ITERA) with an
-                interest in software development, web technologies, problem solving, and digital innovation. I am
-                currently building my skills through academic projects, programming practice, and technology-based
-                portfolio works.
+                I am an active, adaptive, and growth-oriented Informatics Engineering student at Institut Teknologi Sumatera (ITERA). I focus on building practical web systems, learning applied AI, and strengthening leadership, communication, and teamwork through real project work.
             </p>
 
             <div class="hero-action">
@@ -136,11 +135,12 @@
                     <div class="edu-left">
                         <p class="red-label">Institution</p>
                         <h3 class="school">Institut Teknologi Sumatera</h3>
-                        <p class="bold">Informatics Engineering Undergraduate</p>
+                        <p class="bold">Bachelor of Informatics Engineering</p>
+                        <p class="muted" style="margin-bottom: 8px;">South Lampung, Lampung</p>
 
                         <div class="status">
                             <span class="status-dot pulse"></span>
-                            <p class="label-text">Active Bachelor's Student</p>
+                            <p class="label-text">GPA: 3.50 / 4.00 — Active Student</p>
                         </div>
                     </div>
 
@@ -155,7 +155,7 @@
 
                             <div class="edu-item">
                                 <p class="bold">Foundations</p>
-                                <p class="muted">Active in Student Organizations and Programming Club</p>
+                                <p class="muted">Active in Student Organizations & Academic Activities</p>
                             </div>
 
                             <div class="edu-item">
@@ -165,7 +165,7 @@
 
                             <div class="edu-item">
                                 <p class="bold">Advanced Tech</p>
-                                <p class="muted">Artificial Intelligence</p>
+                                <p class="muted">Artificial Intelligence & Digital Innovation</p>
                             </div>
                         </div>
                     </div>
@@ -179,12 +179,13 @@
                     <div class="edu-left">
                         <p class="red-label">Institution</p>
                         <h3 class="school">SMA Negeri 1 Sumberejo</h3>
-                        <p class="bold">High School Diploma</p>
+                        <p class="bold">High School Graduate</p>
+                        <p class="muted" style="margin-bottom: 8px;">Tanggamus, Lampung</p>
 
                         <div class="status">
                             <span class="material-symbols-outlined"
-                                style="color: var(--secondary-container);">event</span>
-                            <p class="label-text">2022 – 2025</p>
+                                style="color: var(--secondary-container); font-size: 16px;">verified</span>
+                            <p class="label-text">July 2022 — May 2025</p>
                         </div>
                     </div>
 
@@ -193,13 +194,13 @@
 
                         <div class="edu-grid">
                             <div class="edu-item">
-                                <p class="bold">Science Stream</p>
-                                <p class="muted">Major focus in Mathematics and Natural Sciences</p>
+                                <p class="bold">Independent Curriculum</p>
+                                <p class="muted">Average Score: 87.71 / 100.00</p>
                             </div>
 
                             <div class="edu-item">
-                                <p class="bold">Extracurricular</p>
-                                <p class="muted">Active in Student Organizations and Scout activities</p>
+                                <p class="bold">Extracurricular & Scouting</p>
+                                <p class="muted">Active in Scout Movement (Customary Leader) and event organizing</p>
                             </div>
                         </div>
                     </div>
@@ -208,14 +209,200 @@
         </div>
     </section>
 
+    <!-- INTERACTIVE EXPERIENCE TIMELINE -->
+    <section class="section surface" id="experience">
+        <div class="container">
+            <div class="section-head center">
+                <h2 class="section-title">EXPERIENCE</h2>
+
+                <div class="label red tilt-left">
+                    <p>Committees & Organizations</p>
+                </div>
+            </div>
+
+            <!-- SEARCH & FILTER INTERACTION PANELS -->
+            <div class="cv-filters">
+                <!-- Search Box -->
+                <div class="search-box-container">
+                    <span class="material-symbols-outlined search-icon">search</span>
+                    <input type="text" id="cvSearch" class="search-input" placeholder="Search keywords (e.g. Scout, Informatics, Coordinator, President)...">
+                    <button id="clearSearch" class="btn-clear-search" style="display: none;"><span class="material-symbols-outlined">close</span></button>
+                </div>
+
+                <!-- Type Filters -->
+                <div class="filter-wrapper">
+                    <span class="filter-label">Category:</span>
+                    <div class="filter-buttons" id="typeFilters">
+                        <button class="filter-btn active" data-type="all">All</button>
+                        <button class="filter-btn" data-type="committee">Committees</button>
+                        <button class="filter-btn" data-type="organization-achievement">Organizations & Achievements</button>
+                    </div>
+                </div>
+
+                <!-- Year Filters -->
+                <div class="filter-wrapper" style="margin-top: 12px;">
+                    <span class="filter-label">Year:</span>
+                    <div class="filter-buttons" id="yearFilters">
+                        <button class="filter-btn active" data-year="all">All</button>
+                        <button class="filter-btn" data-year="2026">2026</button>
+                        <button class="filter-btn" data-year="2025">2025</button>
+                        <button class="filter-btn" data-year="2024">2024</button>
+                        <button class="filter-btn" data-year="2023">2023</button>
+                        <button class="filter-btn" data-year="2022">2022</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIMELINE GRID -->
+            <div class="cv-timeline" id="cvTimeline">
+                <!-- ITEM 1 -->
+                <div class="timeline-item" data-type="committee" data-year="2026">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">May 2026</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Clash of Generations 2026</h3>
+                        <p class="timeline-role">Field Coordinator Division — South Lampung, Lampung</p>
+                        <p class="muted">Assisted in managing participants and spectators for the Informatics Engineering ITERA inter-cohort mini-soccer tournament.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 2 -->
+                <div class="timeline-item" data-type="committee" data-year="2026">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Jan 2026 — Feb 2026</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">IF 2026 Cohort President Election</h3>
+                        <p class="timeline-role">Field Coordinator Division — South Lampung, Lampung</p>
+                        <p class="muted">Helped maintain order and supervised the election process to ensure a conducive, orderly, and compliant voting environment.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 3 -->
+                <div class="timeline-item" data-type="committee" data-year="2025 2026">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Dec 2025 — Jan 2026</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Expo GENSIP SMAN 1 Sumberejo 2026</h3>
+                        <p class="timeline-role">Chairperson / Project Manager — Tanggamus, Lampung</p>
+                        <p class="muted">Led the planning, task delegation, and execution of campus promotion activities to ensure an orderly and effective event.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 4 -->
+                <div class="timeline-item" data-type="committee" data-year="2025">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Oct 2025 — Nov 2025</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Nordbyte 2025 Welcoming Night (Makrab)</h3>
+                        <p class="timeline-role">Field Coordinator Division — South Lampung, Lampung</p>
+                        <p class="muted">Supervised participant movement, secured the event environment, and assisted in coordinating communications between the committee and participants.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 5 -->
+                <div class="timeline-item" data-type="organization-achievement" data-year="2025">
+                    <div class="timeline-meta">
+                        <span class="tag-badge yellow">Organization</span>
+                        <span class="timeline-date">Apr 2025 — Present</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Informatics Student Association (HMIF)</h3>
+                        <p class="timeline-role">Cadre Member — South Lampung, Lampung</p>
+                        <p class="muted">Participated in HMIF cadre development as a process to build discipline, leadership, teamwork, communication, and organizational responsibility.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 6 -->
+                <div class="timeline-item" data-type="committee" data-year="2025">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Aug 2025 — Sep 2025</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">First Meet Nordbyte 2025</h3>
+                        <p class="timeline-role">Field Coordinator Division — South Lampung, Lampung</p>
+                        <p class="muted">Assisted in managing event flow, mobilizing participants, and maintaining order to ensure a smooth and conducive event.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 7 -->
+                <div class="timeline-item" data-type="organization-achievement" data-year="2024">
+                    <div class="timeline-meta">
+                        <span class="tag-badge dark text-white">Achievement</span>
+                        <span class="timeline-date">Jul 2024</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">National Science Olympiad (OSN-K)</h3>
+                        <p class="timeline-role">2nd Place in Informatics — Tanggamus, Lampung</p>
+                        <p class="muted">Won 2nd place in the Informatics field at the Tanggamus Regency level and advanced as an OSN-P participant at the Lampung Province level.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 8 -->
+                <div class="timeline-item" data-type="organization-achievement" data-year="2023 2024">
+                    <div class="timeline-meta">
+                        <span class="tag-badge yellow">Organization</span>
+                        <span class="timeline-date">Dec 2023 — Dec 2024</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Ambalan Sukanda Laksma (Scout Movement)</h3>
+                        <p class="timeline-role">Customary Leader (Pemangku Adat) — Tanggamus, Lampung</p>
+                        <p class="muted">Responsible for leading customary ceremonies, preserving traditional values in scouting activities, and mentoring the discipline and character of members through standard operating procedures (SOP).</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 9 -->
+                <div class="timeline-item" data-type="committee" data-year="2023 2024">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Sep 2023 — Feb 2024</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Scouting Festival 12 SMAN 1 Sumberejo</h3>
+                        <p class="timeline-role">Customary Leader (Pemangku Adat) — Tanggamus, Lampung</p>
+                        <p class="muted">Served as the person-in-charge of activities, monitored committee performance, and provided evaluations throughout the event.</p>
+                    </div>
+                </div>
+
+                <!-- ITEM 10 -->
+                <div class="timeline-item" data-type="committee" data-year="2022 2023">
+                    <div class="timeline-meta">
+                        <span class="tag-badge red">Committee</span>
+                        <span class="timeline-date">Sep 2022 — Jan 2023</span>
+                    </div>
+                    <div class="timeline-body">
+                        <h3 class="timeline-title">Scouting Festival 11 SMAN 1 Sumberejo</h3>
+                        <p class="timeline-role">Field Coordinator Division — Tanggamus, Lampung</p>
+                        <p class="muted">Coordinated all committee members and participants for the Scout competition event at the Lampung Province level.</p>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="no-results-state" id="noResults" style="display: none;">
+                    <span class="material-symbols-outlined" style="font-size: 48px; opacity: 0.5;">search_off</span>
+                    <p class="bold">No experiences match your criteria</p>
+                    <p class="muted">Try changing your search keywords or resetting filters.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- SKILLS -->
-    <section class="section surface" id="skills">
+    <section class="section light" id="skills">
         <div class="container">
             <div class="section-head center">
                 <h2 class="section-title">SKILLS</h2>
 
                 <div class="label yellow tilt-right">
-                    <p>Tech Stack & Interests</p>
+                    <p>Tech Stack & Soft Skills</p>
                 </div>
             </div>
 
@@ -243,23 +430,28 @@
                 </div>
 
                 <div class="skill-card">
-                    <h3 class="skill-title">Tools & DB</h3>
+                    <h3 class="skill-title">Tools & Software</h3>
 
                     <div class="tags">
                         <span class="tag dark">MySQL</span>
                         <span class="tag red" style="transform: rotate(1deg);">Git</span>
                         <span class="tag yellow" style="transform: rotate(-2deg);">GitHub</span>
                         <span class="tag light" style="transform: rotate(3deg);">Figma</span>
+                        <span class="tag dark" style="transform: rotate(-1deg);">VS Code</span>
+                        <span class="tag yellow" style="transform: rotate(2deg);">MS Office</span>
                     </div>
                 </div>
 
                 <div class="skill-card wide yellow-card">
-                    <h3 class="skill-title">Special Interests</h3>
+                    <h3 class="skill-title">AI & Soft Skills</h3>
 
                     <div class="tags">
-                        <span class="tag red big" style="transform: rotate(-1deg);">Artificial Intelligence</span>
-                        <span class="tag dark big" style="transform: rotate(1deg);">Computer Vision</span>
-                        <span class="tag light big" style="transform: rotate(-1deg);">Web Application Development</span>
+                        <span class="tag red big" style="transform: rotate(-1deg);">AI Tools Utilization</span>
+                        <span class="tag dark big" style="transform: rotate(1deg);">Leadership</span>
+                        <span class="tag light big" style="transform: rotate(-1deg);">Time Management</span>
+                        <span class="tag red big" style="transform: rotate(2deg);">Analysis & Problem Solving</span>
+                        <span class="tag dark big" style="transform: rotate(-2deg);">Adaptability & Collaboration</span>
+                        <span class="tag light big" style="transform: rotate(1deg);">Discipline & Responsibility</span>
                     </div>
                 </div>
             </div>
@@ -270,48 +462,34 @@
     <section class="section dark-section" id="projects">
         <div class="container">
             <div class="section-head center">
-                <h2 class="section-title yellow-title">WORKS</h2>
+                <h2 class="section-title yellow-title">PROJECTS</h2>
 
                 <div class="label red tilt-left">
-                    <p>Selected Projects</p>
+                    <p>Selected Works</p>
                 </div>
             </div>
 
-            <div class="project-grid">
-                <div class="project-card">
+            <div class="project-grid single-project-grid">
+                <!-- Aviona Sync Card -->
+                <div class="project-card featured-project">
                     <div class="project-preview">
+                        <img src="assets/aviona.png" alt="Aviona Sync" class="project-img">
                         <div class="project-overlay"></div>
-                        <span class="material-symbols-outlined project-icon">web</span>
                     </div>
 
                     <div class="project-tags">
-                        <span class="project-tag red">Web Development</span>
-                        <span class="project-tag yellow">React.js</span>
+                        <span class="project-tag red">Backend Development</span>
+                        <span class="project-tag yellow">Laravel</span>
+                        <span class="project-tag dark">APIs Integration</span>
                     </div>
 
-                    <h3 class="project-title">Informatics Portal</h3>
-                    <p class="project-desc">A central dashboard for informatics students to track academic progress and
-                        resource sharing.</p>
+                    <h3 class="project-title">Aviona Sync</h3>
+                    <p class="project-desc">An automated academic synchronization and task reminder platform for university students. Integrates with Google Classroom, Google Calendar, and Telegram bot APIs to manage agendas, GPA/SKS metrics, and automated deadline notifications.</p>
 
-                    <button class="btn yellow small mobile-full">View Details</button>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-preview yellow-preview">
-                        <div class="project-overlay yellow-overlay"></div>
-                        <span class="material-symbols-outlined project-icon">smart_toy</span>
+                    <div class="project-actions" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto;">
+                        <a href="https://aviona.antonique.web.id/" target="_blank" class="btn yellow small" style="text-decoration: none; display: inline-block;">Live Demo</a>
+                        <button class="btn light small" id="btnDeconstruct" style="background: white; color: var(--on-surface); cursor: pointer;">View Case Study</button>
                     </div>
-
-                    <div class="project-tags">
-                        <span class="project-tag red">AI / Python</span>
-                        <span class="project-tag yellow">OpenCV</span>
-                    </div>
-
-                    <h3 class="project-title">Image Recognition System</h3>
-                    <p class="project-desc">Computer Vision project focused on real-time object detection and
-                        classification in library environments.</p>
-
-                    <button class="btn yellow small mobile-full">View Details</button>
                 </div>
             </div>
         </div>
@@ -335,7 +513,7 @@
                     <div class="contact-info">
                         <div class="info-row">
                             <span class="material-symbols-outlined info-icon">mail</span>
-                            <span class="bold">pangestuanton44@gmail.com</span>
+                            <span class="bold wrap-text">pangestu.125140069@student.itera.ac.id</span>
                         </div>
 
                         <div class="info-row">
@@ -345,7 +523,7 @@
 
                         <div class="info-row">
                             <span class="material-symbols-outlined info-icon">location_on</span>
-                            <span class="bold">Bandar Lampung, Indonesia</span>
+                            <span class="bold">Tanggamus, Lampung, Indonesia</span>
                         </div>
                     </div>
                 </div>
@@ -374,6 +552,8 @@
         <div class="footer-links">
             <a href="#about" class="footer-link">About</a>
             <a href="#education" class="footer-link">Education</a>
+            <a href="#experience" class="footer-link">Experience</a>
+            <a href="#skills" class="footer-link">Skills</a>
             <a href="#projects" class="footer-link">Projects</a>
         </div>
 
@@ -395,7 +575,96 @@
         </div>
     </div>
 
+    <!-- PROJECT DETAILS MODAL (AVIONA SYNC DECONSTRUCTION) -->
+    <div class="project-modal" id="projectModal" style="display: none;">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        
+        <div class="modal-container">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h2 class="modal-title">AVIONA SYNC — SYSTEM CASE STUDY</h2>
+                <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="modal-content">
+                <p class="red-label" style="font-size: 14px; margin-bottom: 16px;">Laravel-based Automated Academic Assistant</p>
+                
+                <div class="modal-grid">
+                    <!-- Column 1: Details & Tech Stack -->
+                    <div class="modal-col-left">
+                        <div class="modal-section-card">
+                            <h3 class="modal-sec-title">PROJECT OVERVIEW</h3>
+                            <p class="muted">Aviona Sync is a real-world, production-ready platform designed for university students to unify their academic lives. It automatically polls and centralizes Google Classroom tasks, class schedules, and grades, syncs them to Google Calendar, and broadcasts daily agendas and push alerts via a Telegram Bot.</p>
+                            <a href="https://aviona.antonique.web.id/" target="_blank" class="btn yellow small" style="margin-top: 16px; display: inline-block; text-decoration: none;">Launch Application</a>
+                        </div>
+
+                        <div class="modal-section-card" style="margin-top: 24px;">
+                            <h3 class="modal-sec-title">INTEGRATION PIPELINE</h3>
+                            <ul class="modal-list">
+                                <li><strong>Google OAuth 2.0:</strong> Manages secure user authentication, token storage, and background token refresh processes.</li>
+                                <li><strong>Google Classroom API:</strong> Queries courses, active courseworks, announcements, and materials to detect new deadlines.</li>
+                                <li><strong>Google Calendar API:</strong> Programmatically maps coursework deadlines to a dedicated secondary calendar in the user's Google Calendar.</li>
+                                <li><strong>Telegram Bot API:</strong> Dispatches automated daily summaries (every morning at 07:00 AM) and urgent reminders (24 hours before deadlines).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: System Architecture & Database -->
+                    <div class="modal-col-right">
+                        <div class="modal-section-card">
+                            <h3 class="modal-sec-title">SYSTEM ARCHITECTURE</h3>
+                            <div class="architecture-diagram">
+                                <div class="arch-block api">Google APIs</div>
+                                <div class="arch-arrow">▼</div>
+                                <div class="arch-block laravel">Laravel Core App<br><small>(Jobs Scheduler & Queue Worker)</small></div>
+                                <div class="arch-split-row">
+                                    <div class="arch-split-col">
+                                        <div class="arch-arrow">▼</div>
+                                        <div class="arch-block db">MySQL DB</div>
+                                    </div>
+                                    <div class="arch-split-col">
+                                        <div class="arch-arrow">▼</div>
+                                        <div class="arch-block bot">Telegram Bot API</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="muted" style="font-size: 13px; margin-top: 12px; line-height: 1.4;">
+                                <strong>Background Cron Jobs:</strong> Laravel schedules tasks to poll the Google Classroom API every hour. Newly detected coursework is parsed, saved, and queued for synchronization and push notification triggers.
+                            </p>
+                        </div>
+
+                        <div class="modal-section-card" style="margin-top: 24px;">
+                            <h3 class="modal-sec-title">DATABASE SCHEMA</h3>
+                            <div class="db-schema-visual">
+                                <div class="db-table">
+                                    <div class="db-table-title">users</div>
+                                    <div class="db-table-field">id <small>(PK)</small></div>
+                                    <div class="db-table-field">email</div>
+                                    <div class="db-table-field">google_token <small>(Secure Encrypted)</small></div>
+                                    <div class="db-table-field">telegram_chat_id</div>
+                                </div>
+                                <div class="db-table-relation">——— 1:N ———</div>
+                                <div class="db-table">
+                                    <div class="db-table-title">assignments</div>
+                                    <div class="db-table-field">id <small>(PK)</small></div>
+                                    <div class="db-table-field">user_id <small>(FK)</small></div>
+                                    <div class="db-table-field">title & desc</div>
+                                    <div class="db-table-field">due_date</div>
+                                    <div class="db-table-field">status <small>(pending/done)</small></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
 </html>
+

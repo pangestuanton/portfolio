@@ -1,23 +1,45 @@
-# PRA LDOP ARITHMATIC 8.0
+# 👤 Pangestu Anton Widodo - Personal Portfolio
 
-## Identitas
+## 📄 Deskripsi
 
-**Nama:** Pangestu Anton Widodo  
-**NIM:** 125140069  
+Website portfolio pribadi berbasis HTML, CSS, dan JavaScript untuk menampilkan profil, pendidikan, pengalaman, skill, project, dan kontak.
 
-## Deskripsi
+## ✨ Fitur
 
-Repository ini dibuat dalam rangka kegiatan **PRA LDOP ARITHMATIC 8.0**.  
-Tugas ini berisi informasi identitas peserta (html, css, dan js) serta tautan desain dan prototype yang telah dibuat menggunakan Figma.
+- 🧭 Navigasi sticky dengan menu mobile
+- 🖼️ Hero section dengan foto dan ringkasan singkat
+- 📚 Timeline experience dengan search dan filter
+- 🛠️ Section skill dan project
+- 📬 Tombol kontak ke LinkedIn, GitHub, Instagram, dan WhatsApp
+- 🪟 Modal case study project
 
-## Link Design
+## 🗂️ Struktur File
 
-[Klik di sini untuk membuka desain](https://www.figma.com/design/CONMreLDYNdH4yC0oUKA1k/Pra-LDOP?node-id=0-1&t=r3DeAlUYZBM6FnaL-1)
+- `index.html` - struktur utama halaman
+- `styles.css` - styling dan layout
+- `script.js` - interaksi halaman
+- `assets/` - gambar dan aset pendukung
 
-## Prototype Link
+## 🚀 Cara Menjalankan
 
-[Klik di sini untuk membuka prototype](https://www.figma.com/proto/CONMreLDYNdH4yC0oUKA1k/Pra-LDOP?node-id=0-1&t=r3DeAlUYZBM6FnaL-1)
+1. Buka folder project ini.
+2. Jalankan `index.html` langsung di browser.
+3. Jika ingin pakai local server, gunakan ekstensi Live Server atau server statis lain.
 
-## Penutup
+## 🎨 Design & Pembuatan
 
-Tugas ini disusun sebagai bagian dari kelengkapan tugas **PRA LDOP ARITHMATIC 8.0**.
+- Desain dasar website ini berasal dari **Google Stitch**.
+- Implementasi dan generasi aset/penyesuaian dilakukan menggunakan **Google Antigravity** melalui **MCP**.
+
+## 📝 Catatan
+
+- Website ini bersifat statis, tidak memakai backend.
+- Konten profil, portofolio, dan CV dipertahankan sesuai data yang sudah ada.
+
+## 🧰 Teknologi
+
+- HTML5
+- CSS3
+- JavaScript
+- Google Fonts
+- Material Symbols

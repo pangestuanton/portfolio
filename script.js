@@ -14,9 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         bar1.classList.toggle('open', menuOpen);
         bar2.classList.toggle('open', menuOpen);
         bar3.classList.toggle('open', menuOpen);
+        hamburgerBtn.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
         document.body.style.overflow = menuOpen ? 'hidden' : '';
     }
 
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
     hamburgerBtn.addEventListener('click', toggleMenu);
 
     mobileLinks.forEach(link => {
@@ -60,4 +62,134 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768 && menuOpen) {
+            toggleMenu();
+        }
+    });
+
+    // ═══════════════ INTERACTIVE CV PAGE LOGIC ═══════════════
+    const btnPrintCV = document.getElementById('btnPrintCV');
+    if (btnPrintCV) {
+        btnPrintCV.addEventListener('click', () => {
+            window.print();
+        });
+    }
+
+    const cvSearch = document.getElementById('cvSearch');
+    const clearSearch = document.getElementById('clearSearch');
+    const typeFilters = document.getElementById('typeFilters');
+    const yearFilters = document.getElementById('yearFilters');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const noResults = document.getElementById('noResults');
+
+    if (cvSearch && typeFilters && yearFilters) {
+        let currentType = 'all';
+        let currentYear = 'all';
+        let searchQuery = '';
+
+        function filterTimeline() {
+            let visibleCount = 0;
+
+            timelineItems.forEach(item => {
+                const itemType = item.getAttribute('data-type');
+                const itemYears = item.getAttribute('data-year').split(' ');
+                
+                const titleText = item.querySelector('.timeline-title').textContent.toLowerCase();
+                const roleText = item.querySelector('.timeline-role').textContent.toLowerCase();
+                const bodyText = item.querySelector('.muted').textContent.toLowerCase();
+                
+                const matchesType = (currentType === 'all' || itemType === currentType);
+                const matchesYear = (currentYear === 'all' || itemYears.includes(currentYear));
+                const matchesSearch = (searchQuery === '' || 
+                                       titleText.includes(searchQuery) || 
+                                       roleText.includes(searchQuery) || 
+                                       bodyText.includes(searchQuery));
+
+                if (matchesType && matchesYear && matchesSearch) {
+                    item.classList.remove('filtered-out');
+                    visibleCount++;
+                } else {
+                    item.classList.add('filtered-out');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            // Show/hide clear search button
+            if (searchQuery !== '') {
+                clearSearch.style.display = 'flex';
+            } else {
+                clearSearch.style.display = 'none';
+            }
+        }
+
+        // Search Input Event
+        cvSearch.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            filterTimeline();
+        });
+
+        // Clear Search Click
+        clearSearch.addEventListener('click', () => {
+            cvSearch.value = '';
+            searchQuery = '';
+            filterTimeline();
+        });
+
+        // Type Filter Click
+        typeFilters.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                typeFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentType = e.target.getAttribute('data-type');
+                filterTimeline();
+            }
+        });
+
+        // Year Filter Click
+        yearFilters.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                yearFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentYear = e.target.getAttribute('data-year');
+                filterTimeline();
+            }
+        });
+    }
+
+    // ═══════════════ PROJECT CASE STUDY MODAL ═══════════════
+    const btnDeconstruct = document.getElementById('btnDeconstruct');
+    const projectModal = document.getElementById('projectModal');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    if (btnDeconstruct && projectModal && modalCloseBtn && modalOverlay) {
+        function openModal() {
+            projectModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            projectModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        btnDeconstruct.addEventListener('click', openModal);
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        // Escape key to close modal
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && projectModal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+    }
 });
