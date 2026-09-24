@@ -1,195 +1,131 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const config = window.PORTFOLIO_CONFIG || {};
+    const maintenance = document.getElementById('maintenance');
+    const siteContent = document.getElementById('siteContent');
+
+    if (config.maintenanceMode && maintenance && siteContent) {
+        maintenance.hidden = false;
+        siteContent.hidden = true;
+        document.body.style.overflow = 'hidden';
+        return;
+    }
+
+    const navbar = document.getElementById('navbar');
+    const menuButton = document.getElementById('menuButton');
     const mobileMenu = document.getElementById('mobileMenu');
-    const bar1 = document.getElementById('bar1');
-    const bar2 = document.getElementById('bar2');
-    const bar3 = document.getElementById('bar3');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const mobileLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let menuOpen = false;
+    const closeMenu = () => {
+        if (!menuButton || !mobileMenu) return;
+        menuButton.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Buka menu');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('menu-open');
+    };
 
-    function toggleMenu() {
-        menuOpen = !menuOpen;
-        mobileMenu.classList.toggle('open', menuOpen);
-        bar1.classList.toggle('open', menuOpen);
-        bar2.classList.toggle('open', menuOpen);
-        bar3.classList.toggle('open', menuOpen);
-        hamburgerBtn.setAttribute('aria-expanded', menuOpen ? 'true' : 'false');
-        document.body.style.overflow = menuOpen ? 'hidden' : '';
+    if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+            const open = !mobileMenu.classList.contains('open');
+            menuButton.classList.toggle('active', open);
+            mobileMenu.classList.toggle('open', open);
+            menuButton.setAttribute('aria-expanded', String(open));
+            menuButton.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+            mobileMenu.setAttribute('aria-hidden', String(!open));
+            document.body.classList.toggle('menu-open', open);
+        });
+        mobileLinks.forEach(link => link.addEventListener('click', closeMenu));
     }
 
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
-    hamburgerBtn.addEventListener('click', toggleMenu);
-
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (menuOpen) toggleMenu();
+    let scrollFrame;
+    window.addEventListener('scroll', () => {
+        if (scrollFrame) return;
+        scrollFrame = requestAnimationFrame(() => {
+            if (navbar) navbar.classList.toggle('compact', window.scrollY > 60);
+            scrollFrame = null;
         });
-    });
+    }, { passive: true });
 
-    // Smooth scroll for all anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                const navbarHeight = document.getElementById('navbar').offsetHeight;
-                const targetPos = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                window.scrollTo({ top: targetPos, behavior: 'smooth' });
-            }
-        });
-    });
-
-    // Active nav link on scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    function updateActiveNav() {
-        const scrollPos = window.scrollY + 120;
-        sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.offsetHeight;
-            const id = section.getAttribute('id');
-            if (scrollPos >= top && scrollPos < top + height) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + id) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-
-    window.addEventListener('scroll', updateActiveNav);
-    updateActiveNav();
-
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768 && menuOpen) {
-            toggleMenu();
-        }
-    });
-
-    // ═══════════════ INTERACTIVE CV PAGE LOGIC ═══════════════
-    const btnPrintCV = document.getElementById('btnPrintCV');
-    if (btnPrintCV) {
-        btnPrintCV.addEventListener('click', () => {
-            window.print();
-        });
-    }
-
-    const cvSearch = document.getElementById('cvSearch');
-    const clearSearch = document.getElementById('clearSearch');
-    const typeFilters = document.getElementById('typeFilters');
-    const yearFilters = document.getElementById('yearFilters');
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    const noResults = document.getElementById('noResults');
-
-    if (cvSearch && typeFilters && yearFilters) {
-        let currentType = 'all';
-        let currentYear = 'all';
-        let searchQuery = '';
-
-        function filterTimeline() {
-            let visibleCount = 0;
-
-            timelineItems.forEach(item => {
-                const itemType = item.getAttribute('data-type');
-                const itemYears = item.getAttribute('data-year').split(' ');
-                
-                const titleText = item.querySelector('.timeline-title').textContent.toLowerCase();
-                const roleText = item.querySelector('.timeline-role').textContent.toLowerCase();
-                const bodyText = item.querySelector('.muted').textContent.toLowerCase();
-                
-                const matchesType = (currentType === 'all' || itemType === currentType);
-                const matchesYear = (currentYear === 'all' || itemYears.includes(currentYear));
-                const matchesSearch = (searchQuery === '' || 
-                                       titleText.includes(searchQuery) || 
-                                       roleText.includes(searchQuery) || 
-                                       bodyText.includes(searchQuery));
-
-                if (matchesType && matchesYear && matchesSearch) {
-                    item.classList.remove('filtered-out');
-                    visibleCount++;
-                } else {
-                    item.classList.add('filtered-out');
+    const revealElements = document.querySelectorAll('.reveal, .image-reveal');
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+        revealElements.forEach(element => element.classList.add('is-visible'));
+    } else {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
                 }
             });
+        }, { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+        revealElements.forEach(element => observer.observe(element));
+    }
 
-            if (visibleCount === 0) {
-                noResults.style.display = 'block';
-            } else {
-                noResults.style.display = 'none';
-            }
-
-            // Show/hide clear search button
-            if (searchQuery !== '') {
-                clearSearch.style.display = 'flex';
-            } else {
-                clearSearch.style.display = 'none';
-            }
-        }
-
-        // Search Input Event
-        cvSearch.addEventListener('input', (e) => {
-            searchQuery = e.target.value.toLowerCase().trim();
-            filterTimeline();
+    const heroVisual = document.getElementById('heroVisual');
+    const heroPhoto = document.getElementById('heroPhoto');
+    if (heroVisual && heroPhoto && !reducedMotion && window.matchMedia('(pointer: fine)').matches) {
+        heroVisual.addEventListener('pointermove', event => {
+            const bounds = heroVisual.getBoundingClientRect();
+            const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+            const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+            heroPhoto.style.transform = `scale(1.05) translate(${x * 8}px, ${y * 8}px)`;
         });
-
-        // Clear Search Click
-        clearSearch.addEventListener('click', () => {
-            cvSearch.value = '';
-            searchQuery = '';
-            filterTimeline();
-        });
-
-        // Type Filter Click
-        typeFilters.addEventListener('click', (e) => {
-            if (e.target.classList.contains('filter-btn')) {
-                typeFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                currentType = e.target.getAttribute('data-type');
-                filterTimeline();
-            }
-        });
-
-        // Year Filter Click
-        yearFilters.addEventListener('click', (e) => {
-            if (e.target.classList.contains('filter-btn')) {
-                yearFilters.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                currentYear = e.target.getAttribute('data-year');
-                filterTimeline();
-            }
+        heroVisual.addEventListener('pointerleave', () => {
+            heroPhoto.style.transform = 'scale(1.02)';
         });
     }
 
-    // ═══════════════ PROJECT CASE STUDY MODAL ═══════════════
-    const btnDeconstruct = document.getElementById('btnDeconstruct');
-    const projectModal = document.getElementById('projectModal');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalOverlay = document.getElementById('modalOverlay');
+    document.querySelectorAll('.magnetic').forEach(button => {
+        if (reducedMotion || !window.matchMedia('(pointer: fine)').matches) return;
+        button.addEventListener('pointermove', event => {
+            const bounds = button.getBoundingClientRect();
+            const x = event.clientX - bounds.left - bounds.width / 2;
+            const y = event.clientY - bounds.top - bounds.height / 2;
+            button.style.transform = `translate(${x * 0.1}px, ${y * 0.16}px)`;
+        });
+        button.addEventListener('pointerleave', () => button.style.transform = '');
+    });
 
-    if (btnDeconstruct && projectModal && modalCloseBtn && modalOverlay) {
-        function openModal() {
-            projectModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+    const toast = document.getElementById('toast');
+    const cvButton = document.getElementById('cvButton');
+    if (cvButton) {
+        if (config.cvUrl) {
+            cvButton.href = config.cvUrl;
+        } else {
+            cvButton.removeAttribute('target');
+            cvButton.addEventListener('click', event => {
+                event.preventDefault();
+                if (!toast) return;
+                toast.textContent = 'Link CV belum dipasang. Isi cvUrl di config.js.';
+                toast.classList.add('show');
+                window.setTimeout(() => toast.classList.remove('show'), 3200);
+            });
         }
+    }
 
-        function closeModal() {
-            projectModal.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-
-        btnDeconstruct.addEventListener('click', openModal);
-        modalCloseBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', closeModal);
-
-        // Escape key to close modal
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && projectModal.style.display === 'flex') {
-                closeModal();
-            }
+    const dialog = document.getElementById('projectDialog');
+    const dialogButton = document.getElementById('projectDetailButton');
+    const dialogClose = document.getElementById('dialogClose');
+    if (dialog && dialogButton && dialogClose) {
+        const closeDialog = () => {
+            dialog.close();
+            document.body.classList.remove('dialog-open');
+            dialogButton.focus();
+        };
+        dialogButton.addEventListener('click', () => {
+            dialog.showModal();
+            document.body.classList.add('dialog-open');
+            dialogClose.focus();
+        });
+        dialogClose.addEventListener('click', closeDialog);
+        dialog.addEventListener('click', event => {
+            if (event.target === dialog) closeDialog();
+        });
+        dialog.addEventListener('cancel', event => {
+            event.preventDefault();
+            closeDialog();
         });
     }
 });
