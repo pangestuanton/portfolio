@@ -1,85 +1,70 @@
-<!DOCTYPE html>
-<html lang="id">
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsip Pengalaman | Pangestu Anton Widodo</title>
-    <meta name="description" content="Arsip pengalaman sekolah dan pencapaian Pangestu Anton Widodo sebelum memulai pendidikan di ITERA.">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0a0a0a">
+    <title>Experience Archive — Pangestu Anton</title>
+    <meta name="description" content="Pangestu Anton Widodo's organizational experience and achievements before university.">
+    <meta name="theme-color" content="#f5f5f7">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (() => {
+            const saved = localStorage.getItem('portfolio-theme');
+            const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="archive-page" id="top">
-    <a href="index.html#experience" class="back-link">← Kembali ke portofolio</a>
-    <main>
-        <header class="archive-hero section-dark">
-            <p class="eyebrow light-text hero-reveal">Archive / 2022—2024</p>
-            <h1 class="hero-reveal">Sebelum<br>kampus.</h1>
-            <p class="hero-reveal">Pengalaman sekolah, organisasi, dan pencapaian yang menjadi fondasi karakter, kedisiplinan, dan keberanian saya untuk memimpin.</p>
-        </header>
+<body id="top">
+    <div class="maintenance" id="maintenance" hidden>
+        <main class="maintenance-card">
+            <span class="status-chip"><span></span> Under development</span>
+            <p class="maintenance-progress">60%</p>
+            <h1>This portfolio is being updated.</h1>
+            <p>I am currently updating the content and interface. In the meantime, feel free to reach me by email.</p>
+            <div class="progress-track" aria-label="Development progress: 60 percent"><span></span></div>
+            <a class="primary-button" href="mailto:pangestuanton44@gmail.com">Send an email <i data-lucide="arrow-up-right"></i></a>
+        </main>
+    </div>
 
-        <section class="archive-main">
-            <div class="section-index reveal">Selected archive / SMA</div>
-            <div class="experience-list">
-                <article class="experience-card reveal">
-                    <div class="experience-image image-reveal portrait-crop">
-                        <img src="assets/figma boy.jpeg" alt="Dokumentasi Pangestu Anton Widodo saat masa SMA" loading="lazy">
-                    </div>
-                    <div class="experience-copy">
-                        <div class="experience-meta"><span>01 / Prestasi</span><time>Jul 2024</time></div>
-                        <h3>Olimpiade Sains Nasional</h3>
-                        <p class="role">Juara 2 Informatika Tingkat Kabupaten</p>
-                        <p>Meraih juara kedua bidang Informatika di Kabupaten Tanggamus dan melanjutkan sebagai peserta OSN-P pada tingkat Provinsi Lampung.</p>
-                    </div>
-                </article>
-
-                <article class="experience-card reveal">
-                    <div class="experience-image image-reveal portrait-crop">
-                        <img src="assets/figma boy.jpeg" alt="Dokumentasi pengalaman organisasi Pramuka Pangestu" loading="lazy">
-                    </div>
-                    <div class="experience-copy">
-                        <div class="experience-meta"><span>02 / Organisasi</span><time>Des 2023—Des 2024</time></div>
-                        <h3>Ambalan Sukanda Laksma</h3>
-                        <p class="role">Pemangku Adat / Gerakan Pramuka</p>
-                        <p>Memimpin upacara adat, menjaga nilai tradisi dalam kegiatan Pramuka, serta membina disiplin dan karakter anggota melalui prosedur organisasi.</p>
-                    </div>
-                </article>
-
-                <article class="experience-card reveal">
-                    <div class="experience-image image-reveal portrait-crop">
-                        <img src="assets/figma boy.jpeg" alt="Dokumentasi Scouting Festival SMAN 1 Sumberejo" loading="lazy">
-                    </div>
-                    <div class="experience-copy">
-                        <div class="experience-meta"><span>03 / Kepanitiaan</span><time>Sep 2023—Feb 2024</time></div>
-                        <h3>Scouting Festival 12</h3>
-                        <p class="role">Penanggung Jawab Kegiatan</p>
-                        <p>Memantau kinerja panitia, menjaga arah pelaksanaan kegiatan, dan memberikan evaluasi selama festival Pramuka SMAN 1 Sumberejo.</p>
-                    </div>
-                </article>
-
-                <article class="experience-card reveal">
-                    <div class="experience-image image-reveal portrait-crop">
-                        <img src="assets/figma boy.jpeg" alt="Dokumentasi Scouting Festival 11" loading="lazy">
-                    </div>
-                    <div class="experience-copy">
-                        <div class="experience-meta"><span>04 / Kepanitiaan</span><time>Sep 2022—Jan 2023</time></div>
-                        <h3>Scouting Festival 11</h3>
-                        <p class="role">Koordinator Lapangan</p>
-                        <p>Mengoordinasikan panitia dan peserta dalam kompetisi Pramuka tingkat Provinsi Lampung agar kegiatan berlangsung tertib dan terarah.</p>
-                    </div>
-                </article>
-            </div>
-            <div class="archive-cta reveal">
-                <p>Lanjutkan melihat perjalanan saya di lingkungan kampus.</p>
-                <a href="index.html#experience" class="text-link">Kembali ke pengalaman terbaru <span>↗</span></a>
-            </div>
-        </section>
-    </main>
-    <footer><span>© 2026 Pangestu Anton Widodo</span><a href="#top">Kembali ke atas ↑</a></footer>
+    <div id="siteContent">
+        <nav class="archive-nav"><a href="index.html#experience"><i data-lucide="arrow-left"></i> Portfolio</a></nav>
+        <main>
+            <header class="archive-header container reveal">
+                <p class="section-label">Experience from 2022—2024</p>
+                <h1>Experience before university.</h1>
+                <p>Activities and achievements from high school that taught me how to lead, work with a team, and follow through on responsibilities.</p>
+            </header>
+            <section class="section container">
+                <div class="experience-list">
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="National Science Olympiad"><i data-lucide="trophy"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Jul 2024</span><span>Achievement</span></div><h3>Olimpiade Sains Nasional</h3><p class="role">Second Place in Informatics at the Regency Level</p><p>Placed second in Informatics in Tanggamus Regency and advanced to the provincial round in Lampung.</p><ul class="tag-list"><li>Informatics</li><li>Problem solving</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Ambalan Sukanda Laksma"><i data-lucide="compass"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Dec 2023—Dec 2024</span><span>Organization</span></div><h3>Ambalan Sukanda Laksma</h3><p class="role">Customary Leader · Scout Movement</p><p>Led customary ceremonies, maintained activity procedures, and supported members in developing discipline and character.</p><ul class="tag-list"><li>Leadership</li><li>Scouting</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Scouting Festival 12"><i data-lucide="clipboard-check"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Sep 2023—Feb 2024</span><span>Committee</span></div><h3>Scouting Festival 12</h3><p class="role">Event Supervisor</p><p>Monitored the event and committee work, then provided evaluations throughout the program.</p><ul class="tag-list"><li>Supervision</li><li>Evaluation</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Scouting Festival 11"><i data-lucide="users"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Sep 2022—Jan 2023</span><span>Committee</span></div><h3>Scouting Festival 11</h3><p class="role">Field Coordinator</p><p>Coordinated committee members and participants in a province-level scouting competition in Lampung.</p><ul class="tag-list"><li>Field coordination</li><li>Teamwork</li></ul></div>
+                    </article>
+                </div>
+            </section>
+        </main>
+        <footer class="container"><span>© 2026 Pangestu Anton Widodo</span><a href="#top">Back to top <i data-lucide="arrow-up"></i></a></footer>
+        <button class="back-to-top" type="button" aria-label="Back to top"><i data-lucide="arrow-up"></i></button>
+    </div>
+    <script src="config.js"></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

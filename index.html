@@ -1,250 +1,180 @@
-﻿<!DOCTYPE html>
-<html lang="id">
+﻿<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pangestu Anton Widodo | Web & Mobile Developer</title>
-    <meta name="description" content="Portofolio Pangestu Anton Widodo, mahasiswa Teknik Informatika ITERA yang berfokus pada pengembangan web, mobile, dan solusi digital.">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <title>Pangestu Anton</title>
+    <meta name="description" content="Portfolio of Pangestu Anton Widodo, an Informatics Engineering student at ITERA who builds web applications and automation systems.">
     <meta name="author" content="Pangestu Anton Widodo">
-    <meta name="theme-color" content="#0a0a0a">
+    <meta name="theme-color" content="#f5f5f7">
     <link rel="canonical" href="https://antonique.web.id/">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="site.webmanifest">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
-    <meta property="og:title" content="Pangestu Anton Widodo | Web & Mobile Developer">
-    <meta property="og:description" content="Portofolio pengembang web dan mobile dengan pendekatan yang tegas, presisi, dan berorientasi pada dampak.">
+    <meta property="og:title" content="Pangestu Anton Widodo — Software Developer">
+    <meta property="og:description" content="An Informatics Engineering student building web applications and automation systems.">
     <meta property="og:url" content="https://antonique.web.id/">
     <meta property="og:image" content="https://antonique.web.id/assets/figma%20boy.jpeg">
-    <meta property="og:image:alt" content="Potret Pangestu Anton Widodo">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (() => {
+            const saved = localStorage.getItem('portfolio-theme');
+            const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="maintenance" id="maintenance" hidden>
-        <div class="maintenance-grid"></div>
-        <div class="maintenance-content">
-            <p class="eyebrow light-text">Antonique / Work in progress</p>
-            <p class="maintenance-number">60%</p>
-            <h1>Sedang membangun sesuatu yang lebih berani.</h1>
-            <p>Portofolio ini sedang dalam proses penyempurnaan. Saya akan segera kembali dengan pengalaman yang lebih tajam dan profesional.</p>
-            <div class="progress" aria-label="Progres pengembangan 60 persen"><span></span></div>
-            <a href="mailto:pangestu.125140069@student.itera.ac.id" class="text-link light-text">Hubungi saya <span>↗</span></a>
-        </div>
+        <main class="maintenance-card">
+            <span class="status-chip"><span></span> Under development</span>
+            <p class="maintenance-progress">60%</p>
+            <h1>This portfolio is being updated.</h1>
+            <p>I am currently updating the content and interface. In the meantime, feel free to reach me by email.</p>
+            <div class="progress-track" aria-label="Development progress: 60 percent"><span></span></div>
+            <a class="primary-button" href="mailto:pangestuanton44@gmail.com">Send an email <i data-lucide="arrow-up-right"></i></a>
+        </main>
     </div>
 
     <div id="siteContent">
-        <header class="navbar" id="navbar">
-            <a href="#home" class="brand" aria-label="Kembali ke beranda">PAW<span>.</span></a>
-            <nav class="desktop-nav" aria-label="Navigasi utama">
-                <a href="#about">Tentang</a>
-                <a href="#experience">Pengalaman</a>
-                <a href="#skills">Keahlian</a>
-                <a href="#projects">Proyek</a>
-                <a href="#contact">Kontak</a>
-            </nav>
-            <button class="menu-button" id="menuButton" type="button" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false">
-                <span></span><span></span>
-            </button>
+        <header class="site-header" id="siteHeader">
+            <div class="nav-shell">
+                <a class="brand" href="#home">Pangestu Anton</a>
+                <nav class="desktop-nav" aria-label="Main navigation">
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="nav-actions">
+                    <button class="icon-button" id="themeToggle" type="button" aria-label="Change theme"><i data-lucide="moon"></i></button>
+                    <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu"></i></button>
+                </div>
+            </div>
         </header>
 
-        <nav class="mobile-menu" id="mobileMenu" aria-label="Navigasi mobile" aria-hidden="true">
-            <p class="menu-index">Menu / 05</p>
-            <a href="#about"><span>01</span>Tentang</a>
-            <a href="#experience"><span>02</span>Pengalaman</a>
-            <a href="#skills"><span>03</span>Keahlian</a>
-            <a href="#projects"><span>04</span>Proyek</a>
-            <a href="#contact"><span>05</span>Kontak</a>
+        <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
+            <a href="#about">About <i data-lucide="arrow-right"></i></a>
+            <a href="#experience">Experience <i data-lucide="arrow-right"></i></a>
+            <a href="#projects">Projects <i data-lucide="arrow-right"></i></a>
+            <a href="#contact">Contact <i data-lucide="arrow-right"></i></a>
         </nav>
 
         <main>
-            <section class="hero" id="home">
-                <div class="hero-copy">
-                    <p class="eyebrow hero-reveal">Informatics Engineering / ITERA</p>
-                    <h1 class="hero-reveal">Built with<br><span>purpose.</span></h1>
-                    <p class="hero-intro hero-reveal">Saya Pangestu Anton Widodo—pengembang web dan mobile yang mengubah ide menjadi pengalaman digital yang solid, presisi, dan bermakna.</p>
-                    <div class="hero-actions hero-reveal">
-                        <a href="#projects" class="button button-dark magnetic">Lihat karya <span>↘</span></a>
-                        <a href="#" class="button button-light" id="cvButton" target="_blank" rel="noopener noreferrer">Buka CV ATS <span>↗</span></a>
+            <section class="hero container" id="home">
+                <div class="hero-copy reveal">
+                    <span class="status-chip"><span></span> Open to collaboration</span>
+                    <h1>Pangestu Anton Widodo</h1>
+                    <p class="hero-role">Informatics student & software developer.</p>
+                    <p class="hero-description">I build practical web applications and automation systems. I currently study Informatics Engineering at ITERA while working on projects and campus initiatives.</p>
+                    <div class="button-row">
+                        <a class="primary-button" href="#projects">View projects <i data-lucide="arrow-down"></i></a>
+                        <a class="secondary-button" id="cvButton" href="#">CV ATS <i data-lucide="file-text"></i></a>
                     </div>
+                    <dl class="quick-facts">
+                        <div><dt>Location</dt><dd>Lampung, Indonesia</dd></div>
+                        <div><dt>Education</dt><dd>Informatics Engineering, ITERA</dd></div>
+                    </dl>
                 </div>
-                <div class="hero-visual image-reveal hero-reveal" id="heroVisual">
-                    <div class="portrait-wrap">
-                        <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo" class="portrait" id="heroPhoto">
-                    </div>
-                    <div class="visual-caption"><span>Based in Lampung</span><span>Available for work</span></div>
-                    <span class="hero-monogram" aria-hidden="true">P</span>
-                </div>
-                <div class="scroll-cue" aria-hidden="true"><span></span>Scroll to explore</div>
+                <figure class="hero-photo reveal">
+                    <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo">
+                </figure>
             </section>
 
-            <section class="statement" id="about">
-                <div class="section-index reveal">01 / Tentang</div>
-                <div class="statement-body reveal">
-                    <p class="eyebrow">Profil singkat</p>
-                    <h2>Tenang dalam proses.<br>Tegas dalam hasil.</h2>
-                    <div class="about-grid">
-                        <p>Saya adalah mahasiswa Teknik Informatika Institut Teknologi Sumatera yang aktif, adaptif, dan berorientasi pada pertumbuhan. Fokus saya adalah membangun sistem web praktis, mempelajari AI terapan, dan menyelesaikan masalah melalui teknologi.</p>
-                        <p>Pengalaman organisasi dan proyek membentuk cara kerja saya: memimpin dengan jelas, berkomunikasi dengan baik, serta menjaga disiplin dan tanggung jawab pada setiap detail.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="education section-dark" id="education">
-                <div class="section-index reveal">02 / Pendidikan</div>
-                <div class="education-content reveal">
-                    <p class="eyebrow light-text">Academic foundation</p>
-                    <div class="education-heading">
-                        <h2>Institut Teknologi<br>Sumatera.</h2>
-                        <span class="year-pill">2025—Sekarang</span>
-                    </div>
-                    <div class="education-detail">
-                        <div><span>Program</span><strong>S1 Teknik Informatika</strong></div>
-                        <div><span>IPK</span><strong>3.50 / 4.00</strong></div>
-                        <div><span>Fokus</span><strong>Software, Web, AI</strong></div>
-                        <div><span>Status</span><strong class="active-status">Mahasiswa Aktif</strong></div>
+            <section class="section container" id="about">
+                <header class="section-header reveal">
+                    <p class="section-label">About</p>
+                    <h2>Learning through real work.</h2>
+                </header>
+                <div class="about-layout reveal">
+                    <p class="lead">I am interested in web development, backend systems, and API integration. I like breaking problems into smaller parts and building solutions people can use.</p>
+                    <div class="about-copy">
+                        <p>Beyond programming, organizational work has taught me how to manage tasks, communicate with a team, and take responsibility for the outcome.</p>
+                        <p>I am still learning. This portfolio documents what I have built and the skills I am currently developing.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="experience" id="experience">
-                <div class="section-index reveal">03 / Pengalaman</div>
-                <div class="section-heading reveal">
-                    <p class="eyebrow">2025—Sekarang</p>
-                    <h2>Bergerak.<br>Memimpin. Bertumbuh.</h2>
-                    <p>Pengalaman kampus dan profesional yang membentuk kemampuan teknis, koordinasi, serta kepemimpinan saya.</p>
-                </div>
-
-                <div class="experience-list">
-                    <article class="experience-card reveal" data-type="technology">
-                        <div class="experience-image image-reveal">
-                            <img src="assets/aviona.png" alt="Dokumentasi antarmuka proyek teknologi Aviona Sync" loading="lazy">
-                        </div>
-                        <div class="experience-copy">
-                            <div class="experience-meta"><span>01 / Teknologi</span><time>Jul—Agu 2026</time></div>
-                            <h3>PPLK ITERA 2026</h3>
-                            <p class="role">Staf Front-End / Divisi IMTEK</p>
-                            <p>Mengembangkan dan menyempurnakan antarmuka web acara, menerapkan desain responsif, dan berkolaborasi untuk menghadirkan platform yang mudah diakses serta andal.</p>
-                        </div>
-                    </article>
-
-                    <article class="experience-card reveal" data-type="leadership">
-                        <div class="experience-image image-reveal portrait-crop">
-                            <img src="assets/figma boy.jpeg" alt="Dokumentasi Pangestu dalam pengalaman kepemimpinan" loading="lazy">
-                        </div>
-                        <div class="experience-copy">
-                            <div class="experience-meta"><span>02 / Kepemimpinan</span><time>Des 2025—Jan 2026</time></div>
-                            <h3>Expo GENSIP 2026</h3>
-                            <p class="role">Ketua Pelaksana / Project Manager</p>
-                            <p>Memimpin perencanaan, pembagian tugas, komunikasi tim, dan pelaksanaan promosi kampus agar acara berjalan terarah serta efektif.</p>
-                        </div>
-                    </article>
-
-                    <article class="experience-card reveal" data-type="organization">
-                        <div class="experience-image image-reveal portrait-crop">
-                            <img src="assets/figma boy.jpeg" alt="Dokumentasi Pangestu sebagai kader HMIF ITERA" loading="lazy">
-                        </div>
-                        <div class="experience-copy">
-                            <div class="experience-meta"><span>03 / Organisasi</span><time>Apr 2025—Sekarang</time></div>
-                            <h3>HMIF ITERA</h3>
-                            <p class="role">Kader Himpunan Mahasiswa Informatika</p>
-                            <p>Mengembangkan disiplin, kepemimpinan, kerja sama, komunikasi, dan tanggung jawab organisasi melalui proses kaderisasi serta kegiatan himpunan.</p>
-                        </div>
-                    </article>
-
-                    <article class="experience-card reveal" data-type="committee">
-                        <div class="experience-image image-reveal portrait-crop">
-                            <img src="assets/figma boy.jpeg" alt="Dokumentasi kegiatan kepanitiaan kampus Pangestu" loading="lazy">
-                        </div>
-                        <div class="experience-copy">
-                            <div class="experience-meta"><span>04 / Kepanitiaan</span><time>Agu—Nov 2025</time></div>
-                            <h3>Nordbyte 2025</h3>
-                            <p class="role">Divisi Koordinator Lapangan</p>
-                            <p>Mengelola alur kegiatan, mobilisasi peserta, keamanan area, dan komunikasi lapangan pada First Meet serta Welcoming Night Informatika.</p>
-                        </div>
-                    </article>
-                </div>
-
-                <div class="archive-cta reveal">
-                    <p>Perjalanan sebelum kuliah juga ikut membentuk karakter saya.</p>
-                    <a href="experience-archive.html" class="text-link">Lihat pengalaman sebelumnya <span>↗</span></a>
-                </div>
-            </section>
-
-            <section class="skills section-dark" id="skills">
-                <div class="section-index reveal">04 / Keahlian</div>
-                <div class="section-heading reveal">
-                    <p class="eyebrow light-text">Capabilities</p>
-                    <h2>Perangkat untuk<br>mewujudkan ide.</h2>
-                </div>
-                <div class="skills-list reveal">
-                    <div><span>01</span><h3>Programming</h3><p>C++, Python, JavaScript, PHP</p></div>
-                    <div><span>02</span><h3>Web Development</h3><p>HTML, CSS, Bootstrap, Tailwind, Laravel</p></div>
-                    <div><span>03</span><h3>Tools & Data</h3><p>MySQL, Git, GitHub, Figma, VS Code</p></div>
-                    <div><span>04</span><h3>Human Skills</h3><p>Leadership, problem solving, collaboration, adaptability</p></div>
-                </div>
-            </section>
-
-            <section class="projects" id="projects">
-                <div class="section-index reveal">05 / Proyek</div>
-                <div class="section-heading reveal">
-                    <p class="eyebrow">Selected work</p>
-                    <h2>Karya yang<br>menyelesaikan masalah.</h2>
-                </div>
-                <article class="featured-project reveal">
-                    <a href="https://aviona.antonique.web.id/" target="_blank" rel="noopener noreferrer" class="project-visual image-reveal" aria-label="Buka Aviona Sync">
-                        <img src="assets/aviona.png" alt="Tampilan aplikasi Aviona Sync" loading="lazy">
-                        <span>View live ↗</span>
-                    </a>
-                    <div class="project-info">
-                        <div class="experience-meta"><span>01 / Featured project</span><time>2026</time></div>
-                        <h3>Aviona Sync</h3>
-                        <p>Asisten akademik otomatis yang menyatukan Google Classroom, Calendar, dan Telegram untuk mengelola agenda, tugas, serta pengingat tenggat mahasiswa.</p>
-                        <ul><li>Laravel</li><li>Google APIs</li><li>MySQL</li><li>Telegram Bot</li></ul>
-                        <button class="text-link project-detail-button" id="projectDetailButton" type="button">Pelajari sistem <span>↗</span></button>
-                    </div>
+            <section class="section container" id="education">
+                <header class="section-header reveal"><p class="section-label">Education</p><h2>Academic background.</h2></header>
+                <article class="education-panel reveal">
+                    <div><span class="mono">2025—present</span><h3>Institut Teknologi Sumatera</h3><p>Bachelor of Informatics Engineering</p></div>
+                    <dl><div><dt>GPA</dt><dd>3.50 / 4.00</dd></div><div><dt>Focus</dt><dd>Web, software, AI</dd></div><div><dt>Status</dt><dd>Active student</dd></div></dl>
                 </article>
             </section>
 
-            <section class="contact section-dark" id="contact">
-                <div class="section-index reveal">06 / Kontak</div>
-                <div class="contact-content reveal">
-                    <p class="eyebrow light-text">Let's work together</p>
-                    <h2>Punya ide yang<br>layak diwujudkan?</h2>
-                    <a href="mailto:pangestu.125140069@student.itera.ac.id" class="contact-email">Mari bicara <span>↗</span></a>
-                    <div class="contact-bottom">
-                        <div><span>Email</span><a href="mailto:pangestu.125140069@student.itera.ac.id">pangestu.125140069@student.itera.ac.id</a></div>
-                        <div><span>Lokasi</span><p>Lampung, Indonesia</p></div>
-                        <div class="social-links"><a href="https://www.linkedin.com/in/pangestuanton" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/pangestuanton" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.instagram.com/pangestuanton_" target="_blank" rel="noopener noreferrer">Instagram ↗</a></div>
-                    </div>
+            <section class="section container" id="experience">
+                <header class="section-header reveal"><p class="section-label">Experience since 2025</p><h2>Campus and organizational experience.</h2></header>
+                <div class="experience-list">
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="PPLK ITERA 2026"><i data-lucide="code-2"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Jul—Aug 2026</span><span>Technology</span></div><h3>PPLK ITERA 2026</h3><p class="role">Front-End Staff · IMTEK Division</p><p>Built the event website interface, adapted the layout for mobile devices, and coordinated with the technology team throughout development.</p><ul class="tag-list"><li>Front-end</li><li>Responsive UI</li><li>Teamwork</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Expo GENSIP 2026"><i data-lucide="users"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Dec 2025—Jan 2026</span><span>Leadership</span></div><h3>Expo GENSIP 2026</h3><p class="role">Event Chair / Project Manager</p><p>Planned the event, assigned responsibilities, tracked the team's work, and led the campus promotion program.</p><ul class="tag-list"><li>Project planning</li><li>Coordination</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Clash of Generations 2026"><i data-lucide="users"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">May 2026</span><span>Committee</span></div><h3>Clash of Generations 2026</h3><p class="role">Field Coordinator Division</p><p>Helped manage participants and spectators during the Informatics Engineering inter-cohort mini-soccer tournament.</p><ul class="tag-list"><li>Field coordination</li><li>Event operations</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="IF 2026 Cohort President Election"><i data-lucide="vote"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Jan—Feb 2026</span><span>Committee</span></div><h3>IF 2026 Cohort President Election</h3><p class="role">Field Coordinator Division</p><p>Supervised the election process and helped maintain an orderly environment throughout voting.</p><ul class="tag-list"><li>Supervision</li><li>Event operations</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="HMIF ITERA"><i data-lucide="network"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Apr 2025—present</span><span>Organization</span></div><h3>HMIF ITERA</h3><p class="role">Member of the Informatics Student Association</p><p>Participate in association programs that develop discipline, communication, teamwork, and organizational responsibility.</p><ul class="tag-list"><li>Organization</li><li>Communication</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="Nordbyte 2025 Welcoming Night"><i data-lucide="moon-star"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Oct—Nov 2025</span><span>Committee</span></div><h3>Nordbyte 2025 Welcoming Night</h3><p class="role">Field Coordinator Division</p><p>Supervised participant movement, maintained order around the venue, and supported communication between the committee and participants.</p><ul class="tag-list"><li>Field coordination</li><li>Communication</li></ul></div>
+                    </article>
+                    <article class="experience-item reveal">
+                        <div class="experience-media media-placeholder" aria-label="First Meet Nordbyte 2025"><i data-lucide="handshake"></i></div>
+                        <div class="experience-content"><div class="item-meta"><span class="mono">Aug—Sep 2025</span><span>Committee</span></div><h3>First Meet Nordbyte 2025</h3><p class="role">Field Coordinator Division</p><p>Supported event flow, participant movement, and on-site coordination to keep the program organized.</p><ul class="tag-list"><li>Event flow</li><li>Field coordination</li></ul></div>
+                    </article>
+                </div>
+                <a class="inline-link reveal" href="experience-archive.html">View earlier experience <i data-lucide="arrow-up-right"></i></a>
+            </section>
+
+            <section class="section container" id="skills">
+                <header class="section-header reveal"><p class="section-label">Skills</p><h2>Tools I work with.</h2></header>
+                <div class="skill-grid reveal">
+                    <article><i data-lucide="code-2"></i><h3>Development</h3><p>JavaScript, PHP, Python, C++, HTML, CSS</p></article>
+                    <article><i data-lucide="layers-3"></i><h3>Web</h3><p>Laravel, Tailwind CSS, Bootstrap, responsive interface</p></article>
+                    <article><i data-lucide="database"></i><h3>Data & tools</h3><p>MySQL, Git, GitHub, Figma, VS Code</p></article>
+                    <article><i data-lucide="users-round"></i><h3>Working skills</h3><p>Leadership, problem solving, collaboration, adaptability</p></article>
                 </div>
             </section>
-        </main>
 
-        <footer><span>© 2026 Pangestu Anton Widodo</span><a href="#home">Kembali ke atas ↑</a></footer>
+            <section class="section container" id="projects">
+                <header class="section-header reveal"><p class="section-label">Selected project</p><h2>A system I have built.</h2></header>
+                <article class="project-panel reveal">
+                    <a class="project-image" href="https://aviona.antonique.web.id/" target="_blank" rel="noopener noreferrer"><img src="assets/aviona.png" alt="Dashboard Aviona Sync" loading="lazy"><span><i data-lucide="arrow-up-right"></i></span></a>
+                    <div class="project-copy"><span class="mono">Web application</span><h3>Aviona Sync</h3><p>An academic assistant that brings Google Classroom tasks, Calendar events, and Telegram reminders into one workflow.</p><div class="project-details"><div><span>Problem</span><p>Assignments and deadlines are spread across multiple services.</p></div><div><span>Contribution</span><p>Backend development, API integration, data flow, and automation.</p></div></div><ul class="tag-list"><li>Laravel</li><li>MySQL</li><li>Google APIs</li><li>Telegram Bot</li></ul><div class="button-row"><a class="primary-button" href="https://aviona.antonique.web.id/" target="_blank" rel="noopener noreferrer">Live demo <i data-lucide="arrow-up-right"></i></a><button class="secondary-button" id="projectDetailButton" type="button">Technical details</button></div></div>
+                </article>
+            </section>
+
+            <section class="contact-section" id="contact">
+                <div class="container reveal"><p class="section-label">Contact</p><h2>Want to discuss a project or opportunity?</h2><p>I am open to conversations about web development, project collaboration, and learning opportunities.</p><a class="contact-link" href="mailto:pangestuanton44@gmail.com">pangestuanton44@gmail.com <i data-lucide="arrow-up-right"></i></a><div class="social-row"><a href="https://www.linkedin.com/in/pangestuanton" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://github.com/pangestuanton" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.instagram.com/pangestuanton_" target="_blank" rel="noopener noreferrer">Instagram</a></div></div>
+            </section>
+        </main>
+        <footer class="container"><span>© 2026 Pangestu Anton Widodo</span><a href="#home">Back to top <i data-lucide="arrow-up"></i></a></footer>
+        <button class="back-to-top" type="button" aria-label="Back to top"><i data-lucide="arrow-up"></i></button>
     </div>
 
-    <dialog class="project-dialog" id="projectDialog" aria-labelledby="dialogTitle">
-        <div class="dialog-header"><span>Case study / 01</span><button id="dialogClose" type="button" aria-label="Tutup detail proyek">×</button></div>
-        <div class="dialog-content">
-            <p class="eyebrow">Academic automation platform</p>
-            <h2 id="dialogTitle">Aviona Sync</h2>
-            <p class="dialog-lead">Platform Laravel yang dirancang untuk menyederhanakan kehidupan akademik mahasiswa melalui sinkronisasi dan pengingat otomatis.</p>
-            <div class="dialog-grid">
-                <div><span>Masalah</span><p>Agenda, tugas, dan tenggat tersebar di berbagai platform sehingga mudah terlewat.</p></div>
-                <div><span>Solusi</span><p>Sentralisasi data Classroom, sinkronisasi Calendar, dan notifikasi Telegram terjadwal.</p></div>
-                <div><span>Arsitektur</span><p>OAuth 2.0, Google APIs, Laravel scheduler dan queue, MySQL, serta Telegram Bot API.</p></div>
-                <div><span>Peran</span><p>Backend development, integrasi API, perancangan alur data, dan automasi sistem.</p></div>
-            </div>
-            <a href="https://aviona.antonique.web.id/" target="_blank" rel="noopener noreferrer" class="button button-dark">Buka aplikasi <span>↗</span></a>
-        </div>
+    <dialog id="projectDialog" class="project-dialog" aria-labelledby="dialogTitle">
+        <div class="dialog-bar"><span class="mono">Aviona Sync details</span><button class="icon-button" id="dialogClose" type="button" aria-label="Close"><i data-lucide="x"></i></button></div>
+        <div class="dialog-body"><h2 id="dialogTitle">How Aviona Sync works</h2><p class="lead">Aviona Sync retrieves assignment data, stores it in a structured format, and sends schedules and reminders through services students already use.</p><div class="dialog-grid"><article><i data-lucide="key-round"></i><h3>Authentication</h3><p>Google OAuth 2.0 handles authentication and token management.</p></article><article><i data-lucide="refresh-cw"></i><h3>Synchronization</h3><p>Scheduled jobs retrieve updates from Classroom and Calendar.</p></article><article><i data-lucide="bell"></i><h3>Notification</h3><p>The Telegram Bot sends automated summaries and reminders.</p></article><article><i data-lucide="database"></i><h3>Storage</h3><p>MySQL stores users, assignments, statuses, and schedules.</p></article></div></div>
     </dialog>
-
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="config.js"></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
