@@ -107,24 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         revealItems.forEach(item => observer.observe(item));
     }
 
-    const toast = document.getElementById('toast');
-    const cvButton = document.getElementById('cvButton');
-    if (cvButton) {
-        if (config.cvUrl) {
-            cvButton.href = config.cvUrl;
-            cvButton.target = '_blank';
-            cvButton.rel = 'noopener noreferrer';
-        } else {
-            cvButton.addEventListener('click', event => {
-                event.preventDefault();
-                if (!toast) return;
-                toast.textContent = 'The CV link has not been configured. Add cvUrl in config.js.';
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            });
-        }
-    }
-
     const dialog = document.getElementById('projectDialog');
     const dialogButton = document.getElementById('projectDetailButton');
     const dialogClose = document.getElementById('dialogClose');
