@@ -1,0 +1,43 @@
+[
+  {
+    "id": "1",
+    "title": "Sunset by the Coast",
+    "location": "Kedu Warna",
+    "year": "2025",
+    "date": "July 2025",
+    "description": "The quiet afternoon where our story quietly began.",
+    "image": "../assets/minecraft_landscape.jpg",
+    "alt": "Coastline landscape"
+  },
+  {
+    "id": "2",
+    "title": "Evening Conversation",
+    "location": "Bandar Lampung",
+    "year": "2025",
+    "date": "October 2025",
+    "description": "Hours spent talking over tea, sharing ambitions and simple joys.",
+    "image": "../assets/minecraft_welcoming_night.jpg",
+    "alt": "Night view"
+  },
+  {
+    "id": "3",
+    "title": "Weekend Walk",
+    "location": "City Square",
+    "year": "2026",
+    "date": "January 2026",
+    "description": "Taking unhurried steps and enjoying the comfort of familiar presence.",
+    "image": "../assets/minecraft_village.jpg",
+    "alt": "City walk"
+  },
+  {
+    "id": "4",
+    "title": "Quiet Afternoon",
+    "location": "Campus Greenery",
+    "year": "2026",
+    "date": "April 2026",
+    "description": "A tranquil study break under the trees before the semester ended.",
+    "image": "../assets/minecraft_lush_cave.jpg",
+    "alt": "Lush nature"
+  }
+]
+
