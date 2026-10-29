@@ -2,10 +2,13 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Moments — Anton & Special One</title>
     <meta name="description" content="A curated collection of shared memories and photographs.">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
             const saved = localStorage.getItem('portfolio-theme');
@@ -16,16 +19,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- iOS style navigation bar -->
+    <!-- iOS Frosted Navigation Bar -->
     <header class="nav-bar">
         <div class="container nav-content">
-            <a href="../index.html" class="back-button">
+            <a href="../index.html" class="back-button" aria-label="Back to Portfolio">
                 <i data-lucide="chevron-left"></i>
                 <span>Portfolio</span>
             </a>
             <span class="nav-title">Moments</span>
             <div class="nav-actions">
-                <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle dark/light theme">
                     <i data-lucide="moon" id="themeIcon"></i>
                 </button>
             </div>
@@ -40,8 +43,8 @@
             <p class="description">A quiet collection of shared days, meaningful conversations, and places visited together.</p>
         </section>
 
-        <!-- Stats / Meta overview -->
-        <div class="stats-strip">
+        <!-- Stats Overview Strip -->
+        <div class="stats-strip" aria-label="Archive summary">
             <div class="stat-item">
                 <div class="stat-value" id="statTimeline">2025—Present</div>
                 <div class="stat-label">Timeline</div>
@@ -56,21 +59,21 @@
             </div>
         </div>
 
-        <!-- Section header -->
+        <!-- Section Header -->
         <div class="section-meta">
             <h2 class="section-title">Memories</h2>
-            <span class="section-counter" id="sectionCounter">00 / 00</span>
+            <span class="section-counter" id="sectionCounter">01 / 01</span>
         </div>
 
-        <!-- Dynamic Gallery Grid rendered from JSON -->
-        <section class="gallery-grid" id="galleryGrid" aria-live="polite">
-            <!-- Dynamic cards will be injected here -->
+        <!-- Dynamic Gallery Grid -->
+        <section class="gallery-grid" id="galleryGrid" aria-label="Photo gallery">
+            <!-- Cards rendered dynamically from JSON -->
         </section>
 
         <!-- Clean iOS Note Box -->
-        <section class="note-section">
+        <section class="note-section" aria-label="Personal message">
             <div class="note-card">
-                <div class="note-tag">A Personal Note</div>
+                <span class="note-tag">A Personal Note</span>
                 <blockquote>
                     "To have someone who listens, understands, and walks alongside you makes every day feel steady and worthwhile."
                 </blockquote>
@@ -85,7 +88,7 @@
         </div>
     </footer>
 
-    <!-- iOS style Lightbox Dialog -->
+    <!-- iOS Style Lightbox Dialog -->
     <dialog id="photoDialog" class="photo-dialog" aria-labelledby="dialogTitle">
         <div class="dialog-container">
             <div class="dialog-header">
@@ -104,113 +107,9 @@
         </div>
     </dialog>
 
+    <!-- Fallback data for local file:// previews without server -->
     <script src="moments-data.js"></script>
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script>
-        lucide.createIcons();
-
-        // Theme toggle logic
-        const root = document.documentElement;
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-
-        function updateThemeIcon(isDark) {
-            themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-            lucide.createIcons();
-        }
-
-        updateThemeIcon(root.dataset.theme === 'dark');
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = root.dataset.theme === 'dark';
-            const next = isDark ? 'light' : 'dark';
-            root.dataset.theme = next;
-            localStorage.setItem('portfolio-theme', next);
-            updateThemeIcon(!isDark);
-        });
-
-        // Dialog elements
-        const dialog = document.getElementById('photoDialog');
-        const dialogImage = document.getElementById('dialogImage');
-        const dialogTitle = document.getElementById('dialogTitle');
-        const dialogDesc = document.getElementById('dialogDesc');
-        const dialogMeta = document.getElementById('dialogMeta');
-        const dialogClose = document.getElementById('dialogClose');
-
-        dialogClose.addEventListener('click', () => dialog.close());
-        dialog.addEventListener('click', (e) => {
-            if (e.target === dialog) dialog.close();
-        });
-
-        function openModal(item) {
-            dialogImage.src = item.image;
-            dialogImage.alt = item.alt || item.title;
-            dialogTitle.textContent = item.title;
-            dialogDesc.textContent = item.description;
-            dialogMeta.textContent = `${item.location} · ${item.date || item.year}`;
-            dialog.showModal();
-        }
-
-        // Render function
-        function renderGallery(moments) {
-            const gallery = document.getElementById('galleryGrid');
-            const statCount = document.getElementById('statCount');
-            const sectionCounter = document.getElementById('sectionCounter');
-
-            statCount.textContent = moments.length;
-            sectionCounter.textContent = `01 / ${String(moments.length).padStart(2, '0')}`;
-            gallery.innerHTML = '';
-
-            moments.forEach(item => {
-                const card = document.createElement('article');
-                card.className = 'card';
-                card.tabIndex = 0;
-                card.setAttribute('role', 'button');
-                card.setAttribute('aria-label', `View ${item.title}`);
-
-                card.innerHTML = `
-                    <div class="card-media">
-                        <span class="card-badge">${item.year}</span>
-                        <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
-                    </div>
-                    <div class="card-body">
-                        <div class="card-meta">
-                            <span class="card-location">${item.location}</span>
-                            <time datetime="${item.year}">${item.date || item.year}</time>
-                        </div>
-                        <h3 class="card-title">${item.title}</h3>
-                        <p class="card-note">${item.description}</p>
-                    </div>
-                `;
-
-                card.addEventListener('click', () => openModal(item));
-                card.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        openModal(item);
-                    }
-                });
-
-                gallery.appendChild(card);
-            });
-        }
-
-        // Fetch JSON data with fallback to embedded script
-        async function loadMoments() {
-            try {
-                const res = await fetch('moments.json');
-                if (!res.ok) throw new Error('Network error');
-                const data = await res.json();
-                renderGallery(data);
-            } catch (err) {
-                // Fallback jika dibuka langsung secara offline atau pembatasan CORS file://
-                if (window.MOMENTS_DATA) {
-                    renderGallery(window.MOMENTS_DATA);
-                }
-            }
-        }
-
-        loadMoments();
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
