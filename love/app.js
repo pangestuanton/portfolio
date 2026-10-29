@@ -117,8 +117,8 @@
             const minYear = Math.min(...years);
             const maxYear = Math.max(...years);
             statTimeline.textContent = minYear === maxYear 
-                ? `${minYear}—Present` 
-                : `${minYear}—${maxYear}`;
+                ? `${minYear} - Present` 
+                : `${minYear} - ${maxYear}`;
         }
 
         // Locations
