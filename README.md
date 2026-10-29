@@ -16,11 +16,14 @@ Website portfolio pribadi berbasis HTML, CSS, dan JavaScript untuk menampilkan p
 ## Struktur File
 
 - `index.html` - struktur utama halaman
-- `styles.css` - styling dan layout
-- `script.js` - interaksi halaman
+- `experience-archive.html` - arsip pengalaman sekolah
+- `css/` - folder file stylesheet (`styles.css`)
+- `js/` - folder skrip logika halaman (`config.js`, `script.js`)
 - `assets/` - gambar dan aset pendukung
+- `love/` - halaman galeri momen pribadi (`/love`)
 - `robots.txt` - instruksi crawl untuk search engine
 - `sitemap.xml` - daftar URL untuk Google
+- `site.webmanifest` - konfigurasi web app manifest
 
 ## SEO untuk Google
 

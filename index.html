@@ -26,7 +26,7 @@
             document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         })();
     </script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div class="maintenance" id="maintenance" hidden>
@@ -172,8 +172,8 @@
         <div class="dialog-body"><h2 id="dialogTitle">How Aviona Sync works</h2><p class="lead">Aviona Sync retrieves assignment data, stores it in a structured format, and sends schedules and reminders through services students already use.</p><div class="dialog-grid"><article><i data-lucide="key-round"></i><h3>Authentication</h3><p>Google OAuth 2.0 handles authentication and token management.</p></article><article><i data-lucide="refresh-cw"></i><h3>Synchronization</h3><p>Scheduled jobs retrieve updates from Classroom and Calendar.</p></article><article><i data-lucide="bell"></i><h3>Notification</h3><p>The Telegram Bot sends automated summaries and reminders.</p></article><article><i data-lucide="database"></i><h3>Storage</h3><p>MySQL stores users, assignments, statuses, and schedules.</p></article></div></div>
     </dialog>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="config.js"></script>
+    <script src="js/config.js"></script>
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
