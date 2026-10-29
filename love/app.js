@@ -15,7 +15,6 @@
     const sectionCounter = document.getElementById('sectionCounter');
 
     const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
 
     const dialog = document.getElementById('photoDialog');
     const dialogImage = document.getElementById('dialogImage');
@@ -28,8 +27,9 @@
        Theme Management
        ------------------------------------------------------------------------- */
     function updateThemeIcon(isDark) {
-        if (!themeIcon) return;
-        themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        if (!themeToggle) return;
+        themeToggle.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
+        themeToggle.setAttribute('aria-label', isDark ? 'Use light theme' : 'Use dark theme');
         if (window.lucide && typeof window.lucide.createIcons === 'function') {
             window.lucide.createIcons();
         }

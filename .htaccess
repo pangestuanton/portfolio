@@ -1,0 +1,10 @@
+# Apache & LiteSpeed configuration for Anton Portfolio
+DirectorySlash On
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Ensure trailing slash for /love directory route
+RewriteRule ^love$ /love/ [R=301,L]
+</IfModule>
+

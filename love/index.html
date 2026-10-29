@@ -11,6 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
+            // Fix base path if URL is /love (without trailing slash) on web server
+            const path = window.location.pathname;
+            if (window.location.protocol.startsWith('http') && !path.endsWith('/') && !path.endsWith('.html')) {
+                document.write('<base href="' + path + '/">');
+            }
             const saved = localStorage.getItem('portfolio-theme');
             const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.dataset.theme = dark ? 'dark' : 'light';
