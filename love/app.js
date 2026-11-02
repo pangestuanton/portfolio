@@ -22,6 +22,7 @@
     const dialogDesc = document.getElementById('dialogDesc');
     const dialogMeta = document.getElementById('dialogMeta');
     const dialogClose = document.getElementById('dialogClose');
+    const dialogDriveLink = document.getElementById('dialogDriveLink');
 
     /* -------------------------------------------------------------------------
        Theme Management
@@ -59,8 +60,16 @@
         dialogDesc.textContent = item.description;
         dialogMeta.textContent = `${item.location} · ${item.date || item.year}`;
 
+        if (dialogDriveLink) {
+            dialogDriveLink.href = item.driveUrl || 'https://drive.google.com/drive/folders/1ePLngeOGsV-Xbj445LhmuLf_L7J7qtck?usp=drive_link';
+        }
+
         dialog.showModal();
         document.body.classList.add('dialog-open');
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            window.lucide.createIcons();
+        }
     }
 
     function closeModal() {
@@ -154,6 +163,11 @@
         img.src = item.image;
         img.alt = item.alt || item.title;
         img.loading = 'lazy';
+        img.onerror = () => {
+            if (item.drivePreview && img.src !== item.drivePreview) {
+                img.src = item.drivePreview;
+            }
+        };
 
         mediaDiv.appendChild(badge);
         mediaDiv.appendChild(img);

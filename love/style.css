@@ -243,6 +243,64 @@ svg {
     margin: 0 auto;
 }
 
+.hero-actions {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.drive-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background-color: var(--surface-solid);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-subtle);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+}
+
+.drive-button svg {
+    width: 17px;
+    height: 17px;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.drive-button i {
+    width: 15px;
+    height: 15px;
+    color: var(--text-tertiary);
+    transition: transform 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+}
+
+@media (hover: hover) {
+    .drive-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-card);
+        border-color: var(--line-strong, rgba(0, 0, 0, 0.16));
+    }
+    
+    .drive-button:hover i {
+        transform: translate(2px, -2px);
+        color: var(--accent);
+    }
+}
+
+.drive-button:active {
+    transform: scale(0.98);
+}
+
 /* ==========================================================================
    Stats Strip
    ========================================================================== */
@@ -578,6 +636,15 @@ footer {
 .dialog-footer {
     padding: 16px 20px;
     background-color: var(--surface-solid);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.dialog-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .dialog-title {
@@ -591,6 +658,42 @@ footer {
     font-size: 13px;
     color: var(--text-secondary);
     line-height: 1.45;
+}
+
+.dialog-drive-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--accent);
+    background-color: var(--accent-subtle);
+    border-radius: var(--radius-pill);
+    flex-shrink: 0;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.dialog-drive-btn:hover {
+    opacity: 0.85;
+}
+
+.dialog-drive-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+@media (max-width: 520px) {
+    .dialog-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .dialog-drive-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 /* ==========================================================================
