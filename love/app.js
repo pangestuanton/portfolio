@@ -126,7 +126,7 @@
             const minYear = Math.min(...years);
             const maxYear = Math.max(...years);
             statTimeline.textContent = minYear === maxYear 
-                ? `${minYear} - Present` 
+                ? `${minYear}` 
                 : `${minYear} - ${maxYear}`;
         }
 
@@ -223,6 +223,12 @@
     function renderGallery(moments) {
         if (!galleryGrid) return;
         galleryGrid.innerHTML = '';
+
+        if (moments.length === 1) {
+            galleryGrid.classList.add('single-item');
+        } else {
+            galleryGrid.classList.remove('single-item');
+        }
 
         updateStats(moments);
 

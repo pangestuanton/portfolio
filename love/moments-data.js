@@ -2,74 +2,14 @@
 window.MOMENTS_DATA = [
   {
     "id": "1",
-    "title": "Photobooth Moments I",
-    "location": "Bandar Lampung",
-    "year": "2025",
-    "date": "2025",
-    "description": "Special frames captured together, keeping our spontaneous smiles alive.",
-    "image": "../assets/moments/photobooth-1.png",
-    "drivePreview": "https://lh3.googleusercontent.com/d/1Pd4KUGq1227C6zC0fJ0Dl9W83Xe1UFWV",
-    "driveUrl": "https://drive.google.com/file/d/1Pd4KUGq1227C6zC0fJ0Dl9W83Xe1UFWV/view?usp=sharing",
-    "alt": "Photobooth photo frame 1"
-  },
-  {
-    "id": "2",
-    "title": "Photobooth Moments II",
-    "location": "Bandar Lampung",
-    "year": "2025",
-    "date": "2025",
-    "description": "Another set of candid memories and laughter from our favorite booth.",
-    "image": "../assets/moments/photobooth-2.png",
-    "drivePreview": "https://lh3.googleusercontent.com/d/1YeUXFKc2wbfgYB4mO3cR53CEbvCRQ6wC",
-    "driveUrl": "https://drive.google.com/file/d/1YeUXFKc2wbfgYB4mO3cR53CEbvCRQ6wC/view?usp=sharing",
-    "alt": "Photobooth photo frame 2"
-  },
-  {
-    "id": "3",
-    "title": "Photobooth Moments III",
-    "location": "Bandar Lampung",
-    "year": "2025",
-    "date": "2025",
-    "description": "Cherishing the playful gestures and sweet moments between us.",
-    "image": "../assets/moments/photobooth-3.png",
-    "drivePreview": "https://lh3.googleusercontent.com/d/1QyCwuyYASFMEAsxqbRxjZxqVawT83PEf",
-    "driveUrl": "https://drive.google.com/file/d/1QyCwuyYASFMEAsxqbRxjZxqVawT83PEf/view?usp=sharing",
-    "alt": "Photobooth photo frame 3"
-  },
-  {
-    "id": "4",
-    "title": "Photobooth Moments IV",
-    "location": "Bandar Lampung",
-    "year": "2025",
-    "date": "2025",
-    "description": "Every snapshot reminds me of how wonderful it feels to be with you.",
-    "image": "../assets/moments/photobooth-4.png",
-    "drivePreview": "https://lh3.googleusercontent.com/d/1wpbGXrFksfGRyBL9InceKW9ck2IEED76",
-    "driveUrl": "https://drive.google.com/file/d/1wpbGXrFksfGRyBL9InceKW9ck2IEED76/view?usp=sharing",
-    "alt": "Photobooth photo frame 4"
-  },
-  {
-    "id": "5",
-    "title": "Sweet Memory",
-    "location": "Special Place",
-    "year": "2025",
-    "date": "2025",
-    "description": "A genuine capture filled with warmth, affection, and happiness.",
-    "image": "../assets/moments/cintaaa.jpg",
-    "drivePreview": "https://lh3.googleusercontent.com/d/1xIyJ_PbekOEl8mYt2ZXIsw8UwhRyMWgH",
-    "driveUrl": "https://drive.google.com/file/d/1xIyJ_PbekOEl8mYt2ZXIsw8UwhRyMWgH/view?usp=sharing",
-    "alt": "Sweet memory photo"
-  },
-  {
-    "id": "6",
-    "title": "Milestone Celebration",
-    "location": "Campus",
-    "year": "2025",
-    "date": "2025",
-    "description": "Celebrating special milestones and supporting each other through every step.",
+    "title": "Graduation Day",
+    "location": "SMA",
+    "year": "2024",
+    "date": "2024",
+    "description": "A special milestone celebrated together, marking the completion of high school and the beginning of our next journey.",
     "image": "../assets/moments/graduate.jpg",
     "drivePreview": "https://lh3.googleusercontent.com/d/1lcXEB6TaqUsNNKRTqxdsR8Jg_SGWDS0l",
     "driveUrl": "https://drive.google.com/file/d/1lcXEB6TaqUsNNKRTqxdsR8Jg_SGWDS0l/view?usp=sharing",
-    "alt": "Milestone celebration photo"
+    "alt": "Graduation day celebration photo"
   }
 ];

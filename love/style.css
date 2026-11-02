@@ -379,6 +379,18 @@ svg {
     }
 }
 
+.gallery-grid.single-item,
+.gallery-grid:has(.card:only-child) {
+    display: flex;
+    justify-content: center;
+}
+
+.gallery-grid.single-item .card,
+.gallery-grid:has(.card:only-child) .card {
+    max-width: 460px;
+    width: 100%;
+}
+
 .card {
     background-color: var(--surface-solid);
     border: 1px solid var(--line);
