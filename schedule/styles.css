@@ -17,13 +17,15 @@
 .schedule-orbit { position: relative; display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center; justify-items: center; min-height: 184px; max-width: 380px; width: 100%; margin: 8px auto; isolation: isolate; }
 .orbit-ring { position: absolute; z-index: -1; width: 176px; height: 176px; border: 1px dashed var(--line-strong); border-radius: 50%; animation: schedule-orbit 48s linear infinite; }
 .orbit-ring::after { content: ''; position: absolute; top: 20px; right: 22px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 16px var(--accent); }
-.orbit-person { width: 90px; height: 90px; display: grid; align-content: center; justify-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-solid); box-shadow: var(--shadow-sm); }
-.orbit-person > span { font: 500 26px var(--mono); letter-spacing: -.06em; }
-.orbit-person small { margin-top: 5px; color: var(--text-soft); font: 400 9px var(--mono); letter-spacing: .1em; }
+.orbit-person { position: relative; width: 98px; height: 98px; padding: 4px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-solid); box-shadow: var(--shadow-sm); }
+.orbit-photo { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 50%; }
+.orbit-photo img { position: absolute; width: 280%; max-width: none; height: auto; left: -28%; top: -118%; }
+.orbit-aura .orbit-photo img { width: 300%; left: -100%; top: -160%; }
+.orbit-person small { position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); padding: 4px 8px; border: 1px solid var(--line); border-radius: 100px; color: var(--text-soft); background: var(--surface-solid); font: 400 9px var(--mono); letter-spacing: .1em; }
 .orbit-anton { color: var(--accent); }
 .orbit-aura { border-style: double; border-width: 3px; }
 .orbit-connection { display: grid; place-items: center; color: var(--accent); }
-.schedule-orbit > p { position: absolute; bottom: -15px; margin: 0; color: var(--text-soft); font: 400 9px var(--mono); letter-spacing: .03em; }
+.schedule-orbit > p { position: absolute; bottom: -15px; width: 100%; margin: 0; color: var(--text-soft); font: 400 9px/1.5 var(--mono); letter-spacing: .01em; text-align: center; }
 .schedule-campus { margin-top: 16px; }
 .shared-time { margin-top: 24px; padding: 24px 20px 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: radial-gradient(ellipse at top right, color-mix(in srgb, var(--accent) 9%, transparent), transparent 65%), var(--surface-solid); box-shadow: var(--shadow-sm); scroll-margin-top: 95px; }
 .shared-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
@@ -70,7 +72,7 @@
     .schedule-orbit { min-height: 230px; }
     .orbit-ring { width: 220px; height: 220px; }
     .orbit-ring::after { top: 28px; right: 28px; }
-    .orbit-person { width: 104px; height: 104px; }
+    .orbit-person { width: 116px; height: 116px; }
     .shared-time { padding: 28px 30px 22px; }
     #sharedContent { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 40px; align-items: center; }
     .shared-options { grid-column: 1 / -1; }

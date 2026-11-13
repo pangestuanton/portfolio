@@ -110,11 +110,12 @@ function renderSharedTime() {
 
 /** @param {import('./data.mjs').Session} session @param {boolean} conflict */
 function sessionCard(session, conflict) {
+    const showClass = !schedules[state.campus].className;
     const card = el('button', 'session-card');
     card.type = 'button';
     card.dataset.session = session.id;
     card.setAttribute('aria-haspopup', 'dialog');
-    card.setAttribute('aria-label', `${displayTime(session.start)} sampai ${displayTime(session.end)} WIB, ${courseTitle(session)}, ${session.type}, kelas ${session.className}, ${session.room || 'ruangan belum tersedia'}${conflict ? ', benturan jadwal' : ''}. Lihat detail.`);
+    card.setAttribute('aria-label', `${displayTime(session.start)} sampai ${displayTime(session.end)} WIB, ${courseTitle(session)}, ${session.type}${showClass ? `, kelas ${session.className}` : ''}, ${session.room || 'ruangan belum tersedia'}${conflict ? ', benturan jadwal' : ''}. Lihat detail.`);
 
     const time = el('span', 'session-time');
     const start = el('time', '', displayTime(session.start));
@@ -129,7 +130,8 @@ function sessionCard(session, conflict) {
     const meta = el('span', 'session-meta');
     const room = el('span', 'session-room');
     room.append(icon('map-pin'), document.createTextNode(session.room || 'Ruangan belum tersedia'));
-    meta.append(room, el('span', '', `Kelas ${session.className}`));
+    meta.append(room);
+    if (showClass) meta.append(el('span', '', `Kelas ${session.className}`));
     const tags = el('span', 'session-tags');
     tags.append(el('span', `session-tag${session.type === 'Praktikum' ? ' session-tag-practical' : ''}`, session.type));
     if (session.courses.length > 1) tags.append(el('span', 'session-tag', 'Sesi gabungan'));
@@ -180,7 +182,7 @@ function render() {
     });
     required('scheduleTitle').replaceChildren(document.createTextNode(schedule.owner), el('span', '', `${schedule.name} · ${schedule.program}`));
     const activeDays = new Set(schedule.sessions.map(session => session.day)).size;
-    required('scheduleSummary').textContent = `${schedule.sessions.length} sesi per minggu · ${activeDays} hari perkuliahan${schedule.className ? ` · Kelas ${schedule.className}` : ''}${schedule.semester ? ` · Semester ${schedule.semester}` : ''}`;
+    required('scheduleSummary').textContent = `${schedule.sessions.length} sesi per minggu · ${activeDays} hari perkuliahan${schedule.semester ? ` · Semester ${schedule.semester}` : ''}`;
     required('weekLabel').textContent = `${displayDate(week.dates[0], { day: 'numeric', month: 'short', year: 'numeric' })} - ${displayDate(week.dates[6], { day: 'numeric', month: 'short', year: 'numeric' })}`;
 
     navigation.replaceChildren(...days.map((name, index) => {
@@ -239,7 +241,7 @@ function openSession(session, trigger) {
         ['Hari', days[session.day - 1]],
         ['Waktu', `${displayTime(session.start)}-${displayTime(session.end)} WIB`],
         ['Ruangan', session.room || 'Belum tersedia'],
-        ['Kelas', session.className],
+        ...(!schedule.className ? [['Kelas', session.className]] : []),
         ['Jenis perkuliahan', session.type],
         ['Program studi', schedule.program],
     ];
