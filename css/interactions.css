@@ -1,0 +1,16 @@
+/* Shared interaction polish; all colors inherit the existing page tokens. */
+.reading-progress { position: fixed; z-index: 100; inset: 0 0 auto; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.desktop-nav a[aria-current='location'], .mobile-menu a[aria-current='location'] { color: var(--accent); background: var(--surface-muted); }
+.reveal { opacity: 1; transform: none; transition: opacity .55s ease, transform .55s ease; }
+html[data-reveal-ready] .reveal:not(.is-visible) { opacity: 0; transform: translateY(14px); }
+html { scroll-padding-top: 90px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+dialog { overscroll-behavior: contain; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    [data-tilt] { transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transition: transform .35s ease; }
+    [data-tilt][data-tilt-active] { transition-duration: .12s; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html[data-reveal-ready] .reveal:not(.is-visible) { opacity: 1; transform: none; }
+}

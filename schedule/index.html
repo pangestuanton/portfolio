@@ -27,6 +27,7 @@
         })();
     </script>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/interactions.css">
     <link rel="stylesheet" href="/schedule/styles.css">
 </head>
 <body class="schedule-page" id="top">
@@ -49,7 +50,7 @@
                 <p>Di antara kuliah dan cita-cita, selalu ada jeda untuk saling bercerita.</p>
                 <a class="inline-link" href="#sharedTime">Temukan waktu bersama <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
             </div>
-            <div class="schedule-orbit" aria-hidden="true">
+            <div class="schedule-orbit" aria-hidden="true" data-tilt>
                 <div class="orbit-ring"></div>
                 <div class="orbit-person orbit-anton"><div class="orbit-photo"><img src="/assets/schedule/anton-aura.webp" alt="" width="1026" height="1368" decoding="async"></div><small>Anton</small></div>
                 <div class="orbit-connection"><i data-lucide="sparkles"></i></div>
@@ -68,6 +69,7 @@
                 <div>
                     <h2 id="scheduleTitle">Pangestu Anton <span>ITERA · Teknik Informatika</span></h2>
                     <p class="schedule-summary" id="scheduleSummary"></p>
+                    <p class="schedule-live" id="scheduleNow" hidden></p>
                 </div>
                 <div class="schedule-view" role="group" aria-label="Tampilan jadwal">
                     <button type="button" data-view="daily" aria-pressed="true"><i data-lucide="list" aria-hidden="true"></i> Harian</button>

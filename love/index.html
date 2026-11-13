@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Moments - Anton & Special One</title>
+    <title>Moments - Anton &amp; Special One</title>
     <meta name="description" content="A curated collection of shared memories and photographs.">
+    <meta name="theme-color" content="#f5f5f7">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +17,16 @@
             if (window.location.protocol.startsWith('http') && !path.endsWith('/') && !path.endsWith('.html')) {
                 document.write('<base href="' + path + '/">');
             }
-            const saved = localStorage.getItem('portfolio-theme');
+            let saved;
+            try { saved = localStorage.getItem('portfolio-theme'); } catch { /* Use the system theme if storage is unavailable. */ }
             const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         })();
     </script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/interactions.css">
 </head>
-<body>
+<body data-theme-dark="#000000">
     <!-- iOS Frosted Navigation Bar -->
     <header class="nav-bar">
         <div class="container nav-content">
@@ -58,7 +61,7 @@
         </section>
 
         <!-- Stats Overview Strip -->
-        <div class="stats-strip" aria-label="Archive summary">
+        <div class="stats-strip" role="group" aria-label="Archive summary">
             <div class="stat-item">
                 <div class="stat-value" id="statTimeline">2026</div>
                 <div class="stat-label">Timeline</div>
@@ -112,11 +115,11 @@
                 </button>
             </div>
             <div class="dialog-img-wrapper">
-                <img id="dialogImage" src="" alt="">
+                <img id="dialogImage" src="../assets/moments/graduate.jpg" alt="">
             </div>
             <div class="dialog-footer">
                 <div class="dialog-info">
-                    <h3 class="dialog-title" id="dialogTitle"></h3>
+                    <h3 class="dialog-title" id="dialogTitle">Detail momen</h3>
                     <p class="dialog-desc" id="dialogDesc"></p>
                 </div>
                 <a id="dialogDriveLink" href="https://drive.google.com/drive/folders/1ePLngeOGsV-Xbj445LhmuLf_L7J7qtck?usp=drive_link" target="_blank" rel="noopener noreferrer" class="dialog-drive-btn" aria-label="Open in Google Drive">
@@ -130,6 +133,7 @@
     <!-- Fallback data for local file:// previews without server -->
     <script src="moments-data.js"></script>
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    <script src="../js/script.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

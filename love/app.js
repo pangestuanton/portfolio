@@ -6,53 +6,38 @@
 (function () {
     'use strict';
 
+    /** @typedef {{id: string, title: string, location: string, year: string, date?: string, description: string, image: string, alt?: string, driveUrl?: string, drivePreview?: string}} Moment */
+    const host = /** @type {Window & {MOMENTS_DATA?: Moment[]}} */ (window);
+
     // DOM Elements
-    const root = document.documentElement;
     const galleryGrid = document.getElementById('galleryGrid');
     const statTimeline = document.getElementById('statTimeline');
     const statCount = document.getElementById('statCount');
     const statLocation = document.getElementById('statLocation');
     const sectionCounter = document.getElementById('sectionCounter');
 
-    const themeToggle = document.getElementById('themeToggle');
-
-    const dialog = document.getElementById('photoDialog');
-    const dialogImage = document.getElementById('dialogImage');
+    const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById('photoDialog'));
+    const dialogImage = /** @type {HTMLImageElement | null} */ (document.getElementById('dialogImage'));
     const dialogTitle = document.getElementById('dialogTitle');
     const dialogDesc = document.getElementById('dialogDesc');
     const dialogMeta = document.getElementById('dialogMeta');
     const dialogClose = document.getElementById('dialogClose');
-    const dialogDriveLink = document.getElementById('dialogDriveLink');
+    const dialogDriveLink = /** @type {HTMLAnchorElement | null} */ (document.getElementById('dialogDriveLink'));
+    /** @type {HTMLElement | null} */
+    let lastTrigger = null;
 
     /* -------------------------------------------------------------------------
        Theme Management
        ------------------------------------------------------------------------- */
-    function updateThemeIcon(isDark) {
-        if (!themeToggle) return;
-        themeToggle.innerHTML = `<i data-lucide="${isDark ? 'sun' : 'moon'}"></i>`;
-        themeToggle.setAttribute('aria-label', isDark ? 'Use light theme' : 'Use dark theme');
-        if (window.lucide && typeof window.lucide.createIcons === 'function') {
-            window.lucide.createIcons();
-        }
-    }
-
-    if (themeToggle) {
-        updateThemeIcon(root.dataset.theme === 'dark');
-
-        themeToggle.addEventListener('click', () => {
-            const isDark = root.dataset.theme === 'dark';
-            const nextTheme = isDark ? 'light' : 'dark';
-            root.dataset.theme = nextTheme;
-            localStorage.setItem('portfolio-theme', nextTheme);
-            updateThemeIcon(!isDark);
-        });
-    }
+    // Theme, reduced motion and dialog entry effects use the shared controller.
 
     /* -------------------------------------------------------------------------
        Dialog / Modal Management
        ------------------------------------------------------------------------- */
-    function openModal(item) {
-        if (!dialog) return;
+    /** @param {Moment} item @param {HTMLElement} trigger */
+    function openModal(item, trigger) {
+        if (!dialog || !dialogImage || !dialogTitle || !dialogDesc || !dialogMeta) return;
+        lastTrigger = trigger;
 
         dialogImage.src = item.image;
         dialogImage.alt = item.alt || item.title;
@@ -66,10 +51,7 @@
 
         dialog.showModal();
         document.body.classList.add('dialog-open');
-
-        if (window.lucide && typeof window.lucide.createIcons === 'function') {
-            window.lucide.createIcons();
-        }
+        dialogClose?.focus();
     }
 
     function closeModal() {
@@ -92,29 +74,29 @@
                 rect.left <= event.clientX &&
                 event.clientX <= rect.left + rect.width
             );
-            if (!isInDialog) {
+            if (event.target === dialog && !isInDialog) {
                 closeModal();
             }
         });
 
         dialog.addEventListener('close', () => {
             document.body.classList.remove('dialog-open');
+            lastTrigger?.focus({ preventScroll: true });
         });
     }
 
     /* -------------------------------------------------------------------------
        Stats Calculation
        ------------------------------------------------------------------------- */
+    /** @param {Moment[]} moments */
     function updateStats(moments) {
-        if (!moments || moments.length === 0) return;
-
         // Count
         if (statCount) {
             statCount.textContent = String(moments.length);
         }
 
         if (sectionCounter) {
-            sectionCounter.textContent = `01 / ${String(moments.length).padStart(2, '0')}`;
+            sectionCounter.textContent = `${moments.length ? '01' : '00'} / ${String(moments.length).padStart(2, '0')}`;
         }
 
         // Years range
@@ -144,11 +126,13 @@
     /* -------------------------------------------------------------------------
        Card Builder (Safe DOM Generation)
        ------------------------------------------------------------------------- */
+    /** @param {Moment} item */
     function createMomentCard(item) {
         const article = document.createElement('article');
         article.className = 'card';
         article.tabIndex = 0;
         article.setAttribute('role', 'button');
+        article.setAttribute('aria-haspopup', 'dialog');
         article.setAttribute('aria-label', `View details for ${item.title}`);
 
         // Media wrapper
@@ -163,6 +147,7 @@
         img.src = item.image;
         img.alt = item.alt || item.title;
         img.loading = 'lazy';
+        img.decoding = 'async';
         img.onerror = () => {
             if (item.drivePreview && img.src !== item.drivePreview) {
                 img.src = item.drivePreview;
@@ -206,11 +191,11 @@
         article.appendChild(bodyDiv);
 
         // Interactions
-        article.addEventListener('click', () => openModal(item));
+        article.addEventListener('click', () => openModal(item, article));
         article.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                openModal(item);
+                openModal(item, article);
             }
         });
 
@@ -220,6 +205,7 @@
     /* -------------------------------------------------------------------------
        Gallery Render
        ------------------------------------------------------------------------- */
+    /** @param {Moment[]} moments */
     function renderGallery(moments) {
         if (!galleryGrid) return;
         galleryGrid.innerHTML = '';
@@ -239,32 +225,46 @@
         });
 
         galleryGrid.appendChild(fragment);
+        if (!moments.length) galleryGrid.textContent = 'Belum ada momen yang ditampilkan.';
+        document.dispatchEvent(new CustomEvent('portfolio:render', { detail: { root: galleryGrid } }));
     }
 
     /* -------------------------------------------------------------------------
        Data Loader with Fallback
        ------------------------------------------------------------------------- */
     async function loadData() {
+        if (!galleryGrid) return;
+        galleryGrid.setAttribute('aria-busy', 'true');
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
         try {
-            const response = await fetch('moments.json');
+            const response = await fetch('moments.json', { signal: controller.signal });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
+            if (!Array.isArray(data) || !data.every(item => item && ['title', 'location', 'year', 'image', 'description'].every(key => typeof item[key] === 'string'))) throw new Error('Invalid gallery data');
             renderGallery(data);
         } catch (err) {
             // Local file fallback if opened via file:// protocol
-            if (window.MOMENTS_DATA && Array.isArray(window.MOMENTS_DATA)) {
-                renderGallery(window.MOMENTS_DATA);
+            if (host.MOMENTS_DATA && Array.isArray(host.MOMENTS_DATA)) {
+                renderGallery(host.MOMENTS_DATA);
             } else {
+                galleryGrid.textContent = 'Foto belum dapat dimuat. ';
+                const retry = document.createElement('button');
+                retry.type = 'button';
+                retry.className = 'drive-button';
+                retry.textContent = 'Coba lagi';
+                retry.addEventListener('click', () => { galleryGrid.replaceChildren(); loadData(); }, { once: true });
+                galleryGrid.append(retry);
                 console.warn('Unable to load moments from moments.json or fallback script.', err);
             }
+        } finally {
+            clearTimeout(timeout);
+            galleryGrid.setAttribute('aria-busy', 'false');
         }
     }
 
     // Initialize
     loadData();
 
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-    }
 })();
 

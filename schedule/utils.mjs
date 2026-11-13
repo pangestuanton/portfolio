@@ -88,3 +88,23 @@ export function durationLabel(value) {
     const mins = value % 60;
     return [hours ? `${hours} jam` : '', mins ? `${mins} menit` : ''].filter(Boolean).join(' ') || '0 menit';
 }
+
+/** @param {Date} [now] */
+export function jakartaClock(now = new Date()) {
+    const time = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+    }).format(now);
+    return { ...jakartaWeek(now), time, minute: minutes(time) };
+}
+
+/** End times are exclusive: a session ending at 09:30 is finished at 09:30.
+ * @param {import('./data.mjs').Session[]} sessions @param {number} day @param {number} minute
+ */
+export function liveSessions(sessions, day, minute) {
+    const today = sessionsForDay(sessions, day);
+    return {
+        active: today.filter(session => minutes(session.start) <= minute && minute < minutes(session.end)),
+        next: today.find(session => minutes(session.start) > minute) || null,
+        hasSessions: today.length > 0,
+    };
+}

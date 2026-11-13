@@ -3,8 +3,10 @@ export default [{
     languageOptions: {
         ecmaVersion: 'latest',
         globals: Object.fromEntries([
-            'window', 'document', 'localStorage', 'matchMedia', 'requestAnimationFrame',
-            'IntersectionObserver', 'HTMLElement', 'HTMLButtonElement', 'setInterval', 'URL',
+            'window', 'document', 'localStorage', 'matchMedia', 'requestAnimationFrame', 'cancelAnimationFrame',
+            'IntersectionObserver', 'ResizeObserver', 'MutationObserver', 'CustomEvent', 'Node',
+            'HTMLElement', 'HTMLButtonElement', 'HTMLDialogElement', 'HTMLMetaElement',
+            'setTimeout', 'clearTimeout', 'AbortController', 'fetch', 'console', 'URL',
         ].map(name => [name, 'readonly'])),
     },
     rules: {

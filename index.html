@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,23 +21,25 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
-            const saved = localStorage.getItem('portfolio-theme');
+            let saved;
+            try { saved = localStorage.getItem('portfolio-theme'); } catch { /* Use the system theme if storage is unavailable. */ }
             const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.dataset.theme = dark ? 'dark' : 'light';
         })();
     </script>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/interactions.css">
 </head>
 <body>
     <div class="maintenance" id="maintenance" hidden>
-        <main class="maintenance-card">
+        <section class="maintenance-card" aria-labelledby="maintenanceTitle">
             <span class="status-chip"><span></span> Under development</span>
             <p class="maintenance-progress">60%</p>
-            <h1>This portfolio is being updated.</h1>
+            <h1 id="maintenanceTitle">This portfolio is being updated.</h1>
             <p>I am currently updating the content and interface. In the meantime, feel free to reach me by email.</p>
-            <div class="progress-track" aria-label="Development progress: 60 percent"><span></span></div>
+            <div class="progress-track" aria-hidden="true"><span></span></div>
             <a class="primary-button" href="mailto:pangestuanton44@gmail.com">Send an email <i data-lucide="arrow-up-right"></i></a>
-        </main>
+        </section>
     </div>
 
     <div id="siteContent">
@@ -57,7 +59,7 @@
             </div>
         </header>
 
-        <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
+        <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true" inert>
             <a href="#about">About <i data-lucide="arrow-right"></i></a>
             <a href="#experience">Experience <i data-lucide="arrow-right"></i></a>
             <a href="#projects">Projects <i data-lucide="arrow-right"></i></a>
@@ -69,7 +71,7 @@
                 <div class="hero-copy reveal">
                     <span class="status-chip"><span></span> Open to collaboration</span>
                     <h1>Pangestu Anton Widodo</h1>
-                    <p class="hero-role">Informatics student & software developer.</p>
+                    <p class="hero-role">Informatics student &amp; software developer.</p>
                     <p class="hero-description">I build practical web applications and automation systems. I currently study Informatics Engineering at ITERA while working on projects and campus initiatives.</p>
                     <div class="button-row">
                         <a class="primary-button" href="#projects">View projects <i data-lucide="arrow-down"></i></a>
@@ -80,7 +82,7 @@
                     </dl>
                 </div>
                 <figure class="hero-photo reveal">
-                    <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo">
+                    <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo" data-tilt>
                 </figure>
             </section>
 
@@ -146,7 +148,7 @@
                 <div class="skill-grid reveal">
                     <article><i data-lucide="code-2"></i><h3>Development</h3><p>JavaScript, PHP, Python, C++, HTML, CSS</p></article>
                     <article><i data-lucide="layers-3"></i><h3>Web</h3><p>Laravel, Tailwind CSS, Bootstrap, responsive interface</p></article>
-                    <article><i data-lucide="database"></i><h3>Data & tools</h3><p>MySQL, Git, GitHub, Figma, VS Code</p></article>
+                    <article><i data-lucide="database"></i><h3>Data &amp; tools</h3><p>MySQL, Git, GitHub, Figma, VS Code</p></article>
                     <article><i data-lucide="users-round"></i><h3>Working skills</h3><p>Leadership, problem solving, collaboration, adaptability</p></article>
                 </div>
             </section>

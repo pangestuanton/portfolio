@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { schedules } from '../schedule/data.mjs';
-import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaWeek, minuteLabel, sessionsForDay, sharedBreaks } from '../schedule/utils.mjs';
+import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaClock, jakartaWeek, liveSessions, minuteLabel, sessionsForDay, sharedBreaks } from '../schedule/utils.mjs';
 
 test('data contains 11 ITERA sessions and 7 UNILA sessions with valid unique slots', () => {
     assert.equal(schedules.itera.sessions.length, 11);
@@ -115,6 +115,24 @@ test('shared comparison clips sessions to the selected bounds and handles a full
     assert.equal(durationLabel(320), '5 jam 20 menit');
     assert.equal(durationLabel(30), '30 menit');
     assert.equal(durationLabel(60), '1 jam');
+});
+
+test('live timetable status includes both overlapping sessions and uses exclusive end times', () => {
+    const sessions = schedules.itera.sessions;
+    assert.deepEqual(liveSessions(sessions, 1, 560).active.map(session => session.id), ['it-sen-1', 'it-sen-2']);
+    assert.deepEqual(liveSessions(sessions, 1, 570).active.map(session => session.id), ['it-sen-2']);
+    assert.equal(liveSessions(sessions, 1, 449).next.id, 'it-sen-1');
+    assert.equal(liveSessions(sessions, 1, 940).active.length, 0);
+    assert.equal(liveSessions(sessions, 1, 940).next, null);
+    assert.equal(liveSessions(sessions, 6, 600).hasSessions, false);
+});
+
+test('live clock uses WIB and represents midnight as 00:00', () => {
+    const clock = jakartaClock(new Date('2026-11-15T17:00:00Z'));
+    assert.equal(clock.time, '00:00');
+    assert.equal(clock.minute, 0);
+    assert.equal(clock.today, 1);
+    assert.equal(jakartaClock(new Date('2026-11-16T02:20:00Z')).minute, 560);
 });
 
 test('schedule stays hidden from portfolio and sitemap, with explicit direct Vercel routes', () => {

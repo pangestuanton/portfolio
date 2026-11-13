@@ -1,5 +1,5 @@
 import { schedules } from './data.mjs';
-import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaWeek, minuteLabel, minutes, sessionsForDay, sharedBreaks } from './utils.mjs';
+import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaClock, jakartaWeek, liveSessions, minuteLabel, minutes, sessionsForDay, sharedBreaks } from './utils.mjs';
 
 /** @param {string} id */
 function required(id) {
@@ -28,11 +28,25 @@ function icon(name) {
 
 function refreshIcons() {
     const host = /** @type {Window & {lucide?: {createIcons: () => void}}} */ (window);
-    host.lucide?.createIcons();
+    if (!host.lucide || !document.querySelector('i[data-lucide]')) return;
+    host.lucide.createIcons();
+    document.querySelectorAll('svg[data-lucide]').forEach(icon => icon.removeAttribute('data-lucide'));
 }
 
 let week = jakartaWeek();
-const state = { campus: 'itera', view: 'daily', day: week.today };
+const preferences = (() => {
+    try {
+        const saved = JSON.parse(window.localStorage.getItem('portfolio-schedule-view') || 'null');
+        return {
+            campus: typeof saved?.campus === 'string' && Object.hasOwn(schedules, saved.campus) ? saved.campus : 'itera',
+            view: saved?.view === 'weekly' ? 'weekly' : 'daily',
+        };
+    } catch { return { campus: 'itera', view: 'daily' }; }
+})();
+const state = { ...preferences, day: week.today };
+const savePreferences = () => {
+    try { window.localStorage.setItem('portfolio-schedule-view', JSON.stringify({ campus: state.campus, view: state.view })); } catch { /* Optional preferences must not block the timetable. */ }
+};
 const content = required('scheduleContent');
 const navigation = required('dayNavigation');
 const notice = required('conflictNotice');
@@ -136,6 +150,9 @@ function sessionCard(session, conflict) {
     tags.append(el('span', `session-tag${session.type === 'Praktikum' ? ' session-tag-practical' : ''}`, session.type));
     if (session.courses.length > 1) tags.append(el('span', 'session-tag', 'Sesi gabungan'));
     if (conflict) tags.append(el('span', 'session-tag session-tag-conflict', 'Benturan jadwal'));
+    const live = el('span', 'session-tag session-live-status');
+    live.hidden = true;
+    tags.append(live);
     copy.append(el('span', 'session-title', courseTitle(session)), meta, tags);
     const arrow = icon('arrow-up-right');
     arrow.className = 'session-arrow';
@@ -215,16 +232,20 @@ function render() {
     const visibleDays = state.view === 'weekly' ? [1, 2, 3, 4, 5, 6, 7] : [state.day];
     content.replaceChildren(...visibleDays.map(day => daySection(day, conflicting)));
     renderSharedTime();
+    updateLiveStatus();
     const count = state.view === 'weekly' ? schedule.sessions.length : sessionsForDay(schedule.sessions, state.day).length;
     required('scheduleAnnouncement').textContent = `${schedule.owner}, ${schedule.name}, ${state.view === 'weekly' ? 'jadwal mingguan' : days[state.day - 1]}, ${count} sesi${visiblePairs.length ? `, ${visiblePairs.length} benturan jadwal` : ''}. Waktu bersama diperbarui untuk ${days[state.day - 1]}.`;
     refreshIcons();
+    document.dispatchEvent(new CustomEvent('portfolio:render', { detail: { root: content } }));
     if (activeId) document.getElementById(activeId)?.focus({ preventScroll: true });
 }
 
 /** @param {number} day @param {boolean} [scrollToDay] */
 function selectDay(day, scrollToDay = true) {
-    state.day = day;
-    render();
+    if (state.day !== day) {
+        state.day = day;
+        render();
+    }
     if (state.view === 'weekly' && scrollToDay) {
         document.getElementById(`schedule-day-${day}`)?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
@@ -279,13 +300,19 @@ function openSession(session, trigger) {
 
 document.querySelectorAll('button[data-campus]').forEach(button => {
     button.addEventListener('click', () => {
-        state.campus = /** @type {HTMLButtonElement} */ (button).dataset.campus || 'itera';
+        const campus = /** @type {HTMLButtonElement} */ (button).dataset.campus || 'itera';
+        if (state.campus === campus) return;
+        state.campus = campus;
+        savePreferences();
         render();
     });
 });
 document.querySelectorAll('button[data-view]').forEach(button => {
     button.addEventListener('click', () => {
-        state.view = /** @type {HTMLButtonElement} */ (button).dataset.view || 'daily';
+        const view = /** @type {HTMLButtonElement} */ (button).dataset.view || 'daily';
+        if (state.view === view) return;
+        state.view = view;
+        savePreferences();
         render();
     });
 });
@@ -302,7 +329,7 @@ navigation.addEventListener('keydown', event => {
     document.getElementById(`day-button-${day}`)?.focus({ preventScroll: true });
 });
 required('todayButton').addEventListener('click', () => {
-    week = jakartaWeek();
+    refreshDate();
     selectDay(week.today);
 });
 required('sessionClose').addEventListener('click', () => dialog.close());
@@ -317,15 +344,58 @@ dialog.addEventListener('close', () => {
     if (trigger instanceof HTMLButtonElement) trigger.focus({ preventScroll: true });
 });
 
+function updateLiveStatus() {
+    const clock = jakartaClock();
+    const current = liveSessions(schedules[state.campus].sessions, clock.today, clock.minute);
+    const summary = required('scheduleNow');
+    summary.hidden = state.view === 'daily' && state.day !== clock.today;
+    const label = current.active.length
+        ? `Sedang berlangsung: ${current.active.map(courseTitle).join(' + ')}`
+        : current.next
+            ? `Berikutnya ${displayTime(current.next.start)}: ${courseTitle(current.next)}`
+            : current.hasSessions ? 'Semua sesi hari ini telah berakhir.' : 'Tidak ada perkuliahan hari ini.';
+    summary.textContent = `${displayTime(clock.time)} WIB · ${label}`;
+    const active = new Set(current.active.map(session => session.id));
+    content.querySelectorAll('button[data-session]').forEach(card => {
+        if (!(card instanceof HTMLButtonElement)) return;
+        const id = card.dataset.session;
+        const live = card.querySelector('.session-live-status');
+        const ongoing = active.has(id || '');
+        const next = current.next?.id === id;
+        card.classList.toggle('is-ongoing', ongoing);
+        if (live instanceof HTMLElement) {
+            live.hidden = !ongoing && !next;
+            live.textContent = ongoing ? 'Sedang berlangsung' : next && current.next ? `Mulai ${durationLabel(minutes(current.next.start) - clock.minute)} lagi` : '';
+        }
+    });
+}
+
 function refreshDate() {
     const next = jakartaWeek();
-    if (next.key === week.key) return;
-    if (state.day === week.today) state.day = next.today;
-    week = next;
-    render();
+    if (next.key !== week.key) {
+        if (state.day === week.today) state.day = next.today;
+        week = next;
+        render();
+    } else updateLiveStatus();
 }
-setInterval(refreshDate, 30000);
+/** @type {ReturnType<typeof setTimeout> | undefined} */
+let clockTimer;
+function stopClock() {
+    clearTimeout(clockTimer);
+    clockTimer = undefined;
+}
+function startClock() {
+    stopClock();
+    if (document.hidden) return;
+    refreshDate();
+    // Update only at minute boundaries; pause all clock work in background tabs.
+    clockTimer = setTimeout(startClock, 60000 - Date.now() % 60000 + 50);
+}
 document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) refreshDate();
+    if (document.hidden) stopClock();
+    else startClock();
 });
+window.addEventListener('pagehide', stopClock);
+window.addEventListener('pageshow', startClock);
 render();
+startClock();

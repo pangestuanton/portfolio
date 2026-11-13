@@ -59,6 +59,14 @@ File berikut sudah disiapkan agar website lebih mudah diindeks oleh Google:
 2. Jalankan `index.html` langsung di browser.
 3. Jika ingin pakai local server, gunakan Live Server atau server statis lain.
 
+## Interaksi JavaScript
+
+`js/script.js` menangani tema lintas halaman dan tab, mengikuti tema sistem sampai pengguna memilih tema sendiri, navigasi aktif, menu mobile dengan Escape, indikator progres scroll, reveal saat elemen terlihat, serta animasi masuk kartu dan modal. Foto profil dan orbit mendapat efek miring ringan mengikuti kursor pada perangkat dengan pointer presisi. Smooth scroll, reveal, hover, dan animasi orbit sebelumnya dipertahankan. Efek menghormati `prefers-reduced-motion`; konten tetap terlihat ketika JavaScript tidak berjalan. `css/interactions.css` memakai token warna yang sudah ada di tiap halaman.
+
+Event scroll digabung dalam satu listener pasif dengan `requestAnimationFrame`. Posisi bagian navigasi dihitung ulang ketika layout berubah, dan SVG yang sudah dirender tidak dibuat ulang. Galeri `/love` memakai kontrol tema yang sama, mengembalikan fokus setelah modal ditutup, membatasi waktu tunggu data, serta menyediakan fallback dan tombol coba lagi.
+
+`/schedule` mengingat pilihan kampus dan tampilan secara lokal. Status kuliah yang berlangsung serta sesi berikutnya mengikuti Asia/Jakarta, diperbarui pada pergantian menit tanpa merender ulang seluruh jadwal. Timer berhenti saat tab tersembunyi dan dilanjutkan saat halaman aktif kembali. Preferensi yang rusak atau penyimpanan yang diblokir tidak menghalangi akses jadwal.
+
 ## Jadwal perkuliahan
 
 Halaman tersembunyi tersedia di `https://antonique.web.id/schedule`, tanpa tautan di portofolio atau entri sitemap. Metadata `noindex, nofollow` meminta mesin pencari untuk tidak mengindeksnya. Halaman tetap dapat dibuka siapa pun yang mengetahui URL, seperti `/love`.
@@ -77,8 +85,8 @@ Tidak ada framework, dependency runtime tambahan, atau langkah kompilasi/build. 
 
 ```sh
 node --test tests/schedule.test.mjs
-npx --yes --package eslint eslint --config schedule/eslint.config.mjs schedule/*.mjs js/script.js tests/schedule.test.mjs
-npx --yes --package typescript tsc --allowJs --checkJs --noEmit --strict --target ES2022 --module NodeNext --moduleResolution NodeNext schedule/data.mjs schedule/utils.mjs schedule/app.mjs
+npx --yes --package eslint eslint --config schedule/eslint.config.mjs schedule/*.mjs js/*.js love/app.js tests/schedule.test.mjs
+npx --yes --package typescript tsc --allowJs --checkJs --noEmit --strict --target ES2022 --module NodeNext --moduleResolution NodeNext schedule/data.mjs schedule/utils.mjs schedule/app.mjs js/script.js love/app.js
 ```
 
 Vercel menggunakan `vercel.json` untuk me-rewrite `/schedule` dan `/schedule/` ke `/schedule/index.html`, sehingga akses langsung dan refresh tidak bergantung pada navigasi klien. Pertahankan konfigurasi proyek statis yang ada; tidak ada environment variable atau backend baru.

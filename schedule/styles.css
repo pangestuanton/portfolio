@@ -127,6 +127,9 @@
 .session-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .session-tag { width: fit-content; padding: 3px 8px; border: 1px solid var(--line); border-radius: 100px; color: var(--text-soft); font: 400 9px/1.5 var(--mono); }
 .session-tag-practical { color: var(--accent); }
+.schedule-live { margin: 10px 0 0; max-width: 580px; color: var(--accent); font-size: 11px; line-height: 1.6; }
+.session-live-status { color: var(--accent); border-color: var(--accent); }
+.session-card.is-ongoing { border-color: var(--accent); }
 .session-tag-conflict { color: var(--text); border-style: dashed; }
 .session-arrow { width: 16px; margin-top: 4px; color: var(--text-soft); }
 .schedule-empty { display: grid; justify-items: center; gap: 10px; padding: 50px 22px; border: 1px dashed var(--line-strong); border-radius: var(--radius-md); text-align: center; }
