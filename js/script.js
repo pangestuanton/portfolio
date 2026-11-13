@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const siteContent = document.getElementById('siteContent');
     const themeToggle = document.getElementById('themeToggle');
     const themeColor = document.querySelector('meta[name="theme-color"]');
+    const indonesian = document.documentElement.lang === 'id';
 
     const refreshIcons = () => {
         if (window.lucide) window.lucide.createIcons();
@@ -13,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const dark = document.documentElement.dataset.theme === 'dark';
         if (themeToggle) {
             themeToggle.innerHTML = `<i data-lucide="${dark ? 'sun' : 'moon'}"></i>`;
-            themeToggle.setAttribute('aria-label', dark ? 'Use light theme' : 'Use dark theme');
+            themeToggle.setAttribute('aria-label', indonesian
+                ? (dark ? 'Gunakan tema terang' : 'Gunakan tema gelap')
+                : (dark ? 'Use light theme' : 'Use dark theme'));
         }
         if (themeColor) themeColor.content = dark ? '#101012' : '#f5f5f7';
         refreshIcons();
@@ -24,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle?.addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = next;
-        localStorage.setItem('portfolio-theme', next);
+        try { localStorage.setItem('portfolio-theme', next); } catch { /* Keep the theme usable when storage is unavailable. */ }
         updateThemeControl();
     });
 

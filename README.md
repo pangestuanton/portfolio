@@ -59,6 +59,28 @@ File berikut sudah disiapkan agar website lebih mudah diindeks oleh Google:
 2. Jalankan `index.html` langsung di browser.
 3. Jika ingin pakai local server, gunakan Live Server atau server statis lain.
 
+## Jadwal perkuliahan
+
+Halaman tersembunyi tersedia di `https://antonique.web.id/schedule`, tanpa tautan di portofolio atau entri sitemap. Metadata `noindex, nofollow` meminta mesin pencari untuk tidak mengindeksnya. Halaman tetap dapat dibuka siapa pun yang mengetahui URL, seperti `/love`.
+
+- `schedule/index.html`: halaman native dengan komponen dan token dari `css/styles.css`.
+- `schedule/data.mjs`: seluruh data ITERA dan UNILA. Hari memakai angka 1 (Senin) sampai 7 (Minggu), waktu `HH:mm` dalam WIB, `null` untuk ruangan yang belum tersedia, dan array `courses` untuk sesi gabungan.
+- `schedule/utils.mjs`: perhitungan minggu Asia/Jakarta dan benturan waktu.
+- `schedule/app.mjs` dan `schedule/styles.css`: interaksi serta layout khusus halaman.
+- `tests/schedule.test.mjs`: pengujian data, zona waktu, benturan, dan rute tersembunyi.
+
+Jalankan lewat server HTTP, misalnya `python -m http.server 4173`, lalu buka `/schedule/`. Modul JavaScript memerlukan HTTP, bukan membuka file HTML langsung.
+
+Tidak ada framework, dependency runtime tambahan, atau langkah kompilasi/build. Pemeriksaan dapat dijalankan dengan Node.js dan alat pengembangan sementara melalui npm:
+
+```sh
+node --test tests/schedule.test.mjs
+npx --yes --package eslint eslint --config schedule/eslint.config.mjs schedule/*.mjs js/script.js tests/schedule.test.mjs
+npx --yes --package typescript tsc --allowJs --checkJs --noEmit --strict --target ES2022 --module NodeNext --moduleResolution NodeNext schedule/data.mjs schedule/utils.mjs schedule/app.mjs
+```
+
+Vercel menggunakan `vercel.json` untuk me-rewrite `/schedule` dan `/schedule/` ke `/schedule/index.html`, sehingga akses langsung dan refresh tidak bergantung pada navigasi klien. Pertahankan konfigurasi proyek statis yang ada; tidak ada environment variable atau backend baru.
+
 ## Design & Pembuatan
 
 - Desain dasar website ini berasal dari Google Stitch.

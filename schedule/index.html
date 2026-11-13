@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Perkuliahan - Pangestu Anton</title>
+    <meta name="description" content="Jadwal perkuliahan mingguan Teknik Informatika ITERA dan PPKn UNILA. Lihat waktu, ruangan, dan detail sesi dalam WIB.">
+    <meta name="theme-color" content="#f5f5f7">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://antonique.web.id/schedule">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:title" content="Jadwal Perkuliahan - Pangestu Anton">
+    <meta property="og:description" content="Jadwal Teknik Informatika ITERA dan PPKn UNILA dalam satu halaman.">
+    <meta property="og:url" content="https://antonique.web.id/schedule">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <script>
+        (() => {
+            let saved;
+            try { saved = localStorage.getItem('portfolio-theme'); } catch { /* Tema sistem jika penyimpanan dibatasi. */ }
+            const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/schedule/styles.css">
+</head>
+<body class="schedule-page" id="top">
+    <a class="schedule-skip" href="#scheduleMain">Lewati ke jadwal</a>
+    <header class="site-header" id="siteHeader">
+        <div class="nav-shell">
+            <a class="brand" href="/">Pangestu Anton</a>
+            <div class="nav-actions">
+                <a class="schedule-home" href="/"><i data-lucide="arrow-left" aria-hidden="true"></i> <span>Portofolio</span></a>
+                <button class="icon-button" id="themeToggle" type="button" aria-label="Ubah tema"><i data-lucide="moon" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="scheduleMain">
+        <header class="archive-header schedule-heading">
+            <p class="section-label">Agenda akademik</p>
+            <h1>Jadwal perkuliahan.</h1>
+            <p>Rencanakan hari, lihat satu minggu. Semua waktu mengikuti WIB.</p>
+        </header>
+
+        <div class="schedule-campus" role="group" aria-label="Pilih jadwal kampus">
+            <button class="campus-option" type="button" data-campus="itera" aria-pressed="true"><span>ITERA</span><small>Teknik Informatika</small></button>
+            <button class="campus-option" type="button" data-campus="unila" aria-pressed="false"><span>UNILA</span><small>PPKn · Kelas 26C</small></button>
+        </div>
+
+        <section class="schedule-workspace" aria-labelledby="scheduleTitle">
+            <div class="schedule-toolbar">
+                <div>
+                    <h2 id="scheduleTitle">ITERA <span>Teknik Informatika</span></h2>
+                    <p class="schedule-summary" id="scheduleSummary"></p>
+                </div>
+                <div class="schedule-view" role="group" aria-label="Tampilan jadwal">
+                    <button type="button" data-view="daily" aria-pressed="true"><i data-lucide="list" aria-hidden="true"></i> Harian</button>
+                    <button type="button" data-view="weekly" aria-pressed="false"><i data-lucide="calendar-days" aria-hidden="true"></i> Mingguan</button>
+                </div>
+            </div>
+
+            <div class="schedule-week-meta">
+                <p id="weekLabel"></p>
+                <button class="secondary-button" id="todayButton" type="button">Hari ini <i data-lucide="corner-down-left" aria-hidden="true"></i></button>
+            </div>
+            <div class="schedule-days" id="dayNavigation" role="group" aria-label="Pilih hari"></div>
+
+            <div class="schedule-conflicts" id="conflictNotice" hidden></div>
+            <p class="schedule-sr-only" id="scheduleAnnouncement" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="schedule-content" id="scheduleContent"></div>
+            <noscript><p class="schedule-empty">Aktifkan JavaScript untuk melihat jadwal dan detail perkuliahan.</p></noscript>
+            <div class="schedule-footnote"><i data-lucide="info" aria-hidden="true"></i><p>Jadwal berulang setiap minggu. Pilih sesi untuk melihat detail perkuliahan.</p><span>Asia/Jakarta · WIB</span></div>
+        </section>
+    </main>
+
+    <footer class="container"><span>© 2026 Pangestu Anton Widodo</span><a href="#top">Kembali ke atas <i data-lucide="arrow-up" aria-hidden="true"></i></a></footer>
+
+    <dialog class="project-dialog schedule-dialog" id="sessionDialog" aria-labelledby="sessionTitle">
+        <div class="dialog-bar"><span class="mono">Detail perkuliahan</span><button class="icon-button" id="sessionClose" type="button" aria-label="Tutup detail"><i data-lucide="x" aria-hidden="true"></i></button></div>
+        <div class="dialog-body" id="sessionDetails"></div>
+    </dialog>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script src="/js/script.js" defer></script>
+    <script src="/schedule/app.mjs" type="module"></script>
+</body>
+</html>
