@@ -78,7 +78,8 @@ test('combined courses share a single session and lecturer list; unknown source 
     assert.deepEqual(combined[0].courses, ['Ilmu Negara', 'Pengantar Ilmu Politik']);
     assert.deepEqual(combined[1].courses, ['PIH dan PHI', 'Pancasila']);
     assert.deepEqual(combined[1].lecturers, ['Abdul Halim, M.Pd.']);
-    assert.ok(schedules.itera.sessions.every(session => session.lecturers.length === 0));
+    assert.deepEqual(schedules.itera.sessions.filter(session => session.lecturers.length === 0).map(session => session.id), ['it-sel-2', 'it-jum-1']);
+    assert.equal(schedules.itera.semester, 'Gasal 2026/2027');
     assert.equal(schedules.itera.sessions.find(session => session.className === 'B05').room, null);
     assert.ok(schedules.unila.sessions.every(session => session.className === '26C'));
 });

@@ -118,7 +118,7 @@ function render() {
     });
     required('scheduleTitle').replaceChildren(document.createTextNode(schedule.name), el('span', '', schedule.program));
     const activeDays = new Set(schedule.sessions.map(session => session.day)).size;
-    required('scheduleSummary').textContent = `${schedule.sessions.length} sesi per minggu · ${activeDays} hari perkuliahan${schedule.className ? ` · Kelas ${schedule.className}` : ''}`;
+    required('scheduleSummary').textContent = `${schedule.sessions.length} sesi per minggu · ${activeDays} hari perkuliahan${schedule.className ? ` · Kelas ${schedule.className}` : ''}${schedule.semester ? ` · Semester ${schedule.semester}` : ''}`;
     required('weekLabel').textContent = `${displayDate(week.dates[0], { day: 'numeric', month: 'short', year: 'numeric' })} - ${displayDate(week.dates[6], { day: 'numeric', month: 'short', year: 'numeric' })}`;
 
     navigation.replaceChildren(...days.map((name, index) => {
