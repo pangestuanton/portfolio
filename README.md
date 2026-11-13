@@ -69,6 +69,8 @@ Halaman tersembunyi tersedia di `https://antonique.web.id/schedule`, tanpa tauta
 - `schedule/app.mjs` dan `schedule/styles.css`: interaksi serta layout khusus halaman.
 - `tests/schedule.test.mjs`: pengujian data, zona waktu, benturan, dan rute tersembunyi.
 
+Jadwal ITERA milik Pangestu Anton, dan UNILA milik Aura Leviona. Panel **Waktu bersama** membandingkan kedua jadwal pada hari yang dipilih, menampilkan garis waktu kuliah dan jeda yang sama minimal 30 menit dalam rentang 07.00-21.00 WIB. Sesi yang bertumpang tindih digabung sebelum menghitung jeda; hasil hanya berdasarkan jadwal kuliah, tanpa asumsi kegiatan lain atau waktu perjalanan. Bagian **Intip jeda seminggu** menampilkan jeda terpanjang setiap hari.
+
 Jalankan lewat server HTTP, misalnya `python -m http.server 4173`, lalu buka `/schedule/`. Modul JavaScript memerlukan HTTP, bukan membuka file HTML langsung.
 
 Tidak ada framework, dependency runtime tambahan, atau langkah kompilasi/build. Pemeriksaan dapat dijalankan dengan Node.js dan alat pengembangan sementara melalui npm:

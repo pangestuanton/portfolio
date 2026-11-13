@@ -55,3 +55,36 @@ export function findConflicts(sessions) {
     });
     return pairs;
 }
+
+/** Shared gaps in the union of both timetables. Merge overlapping sessions first.
+ * Bounds describe a comparison window, not personal availability.
+ * @param {import('./data.mjs').Session[]} sessions
+ * @param {number} day
+ * @param {{start?: number, end?: number, minimum?: number}} [options]
+ */
+export function sharedBreaks(sessions, day, { start = 420, end = 1260, minimum = 30 } = {}) {
+    const busy = sessionsForDay(sessions, day)
+        .map(session => ({ start: Math.max(start, minutes(session.start)), end: Math.min(end, minutes(session.end)) }))
+        .filter(slot => slot.end > slot.start);
+    /** @type {{start: number, end: number, duration: number}[]} */
+    const gaps = [];
+    let cursor = start;
+    for (const slot of busy) {
+        if (slot.start - cursor >= minimum) gaps.push({ start: cursor, end: slot.start, duration: slot.start - cursor });
+        cursor = Math.max(cursor, slot.end);
+    }
+    if (end - cursor >= minimum) gaps.push({ start: cursor, end, duration: end - cursor });
+    return gaps;
+}
+
+/** @param {number} value */
+export function minuteLabel(value) {
+    return `${String(Math.floor(value / 60)).padStart(2, '0')}.${String(value % 60).padStart(2, '0')}`;
+}
+
+/** @param {number} value */
+export function durationLabel(value) {
+    const hours = Math.floor(value / 60);
+    const mins = value % 60;
+    return [hours ? `${hours} jam` : '', mins ? `${mins} menit` : ''].filter(Boolean).join(' ') || '0 menit';
+}

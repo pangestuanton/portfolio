@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { schedules } from '../schedule/data.mjs';
-import { days, displayDate, displayTime, findConflicts, jakartaWeek, sessionsForDay } from '../schedule/utils.mjs';
+import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaWeek, minuteLabel, sessionsForDay, sharedBreaks } from '../schedule/utils.mjs';
 
 test('data contains 11 ITERA sessions and 7 UNILA sessions with valid unique slots', () => {
     assert.equal(schedules.itera.sessions.length, 11);
@@ -78,10 +78,43 @@ test('combined courses share a single session and lecturer list; unknown source 
     assert.deepEqual(combined[0].courses, ['Ilmu Negara', 'Pengantar Ilmu Politik']);
     assert.deepEqual(combined[1].courses, ['PIH dan PHI', 'Pancasila']);
     assert.deepEqual(combined[1].lecturers, ['Abdul Halim, M.Pd.']);
-    assert.deepEqual(schedules.itera.sessions.filter(session => session.lecturers.length === 0).map(session => session.id), ['it-sel-2', 'it-jum-1']);
+    for (const course of ['Pemrograman Berorientasi Objek', 'Basis Data']) {
+        const sessions = schedules.itera.sessions.filter(session => session.courses.includes(course));
+        assert.deepEqual(sessions.find(session => session.type === 'Praktikum').lecturers, sessions.find(session => session.type === 'Kuliah').lecturers);
+    }
     assert.equal(schedules.itera.semester, 'Gasal 2026/2027');
     assert.equal(schedules.itera.sessions.find(session => session.className === 'B05').room, null);
     assert.ok(schedules.unila.sessions.every(session => session.className === '26C'));
+});
+
+test('shared breaks merge overlapping campus schedules and exclude gaps shorter than thirty minutes', () => {
+    const all = Object.values(schedules).flatMap(schedule => schedule.sessions);
+    assert.deepEqual(sharedBreaks(all, 1), [
+        { start: 420, end: 450, duration: 30 },
+        { start: 720, end: 780, duration: 60 },
+        { start: 940, end: 1260, duration: 320 },
+    ]);
+    assert.deepEqual(sharedBreaks(all, 2), [
+        { start: 720, end: 780, duration: 60 },
+        { start: 1010, end: 1260, duration: 250 },
+    ]);
+    assert.deepEqual(sharedBreaks(all, 6), [{ start: 420, end: 1260, duration: 840 }]);
+    assert.equal(schedules.itera.owner, 'Pangestu Anton');
+    assert.equal(schedules.unila.owner, 'Aura Leviona');
+});
+
+test('shared comparison clips sessions to the selected bounds and handles a fully occupied day', () => {
+    const base = schedules.itera.sessions[0];
+    const occupied = [
+        { ...base, start: '06:00', end: '12:00' },
+        { ...base, start: '11:00', end: '22:00' },
+    ];
+    assert.deepEqual(sharedBreaks(occupied, 1), []);
+    assert.deepEqual(sharedBreaks([base], 1, { start: 600, end: 660 }), [{ start: 600, end: 660, duration: 60 }]);
+    assert.equal(minuteLabel(940), '15.40');
+    assert.equal(durationLabel(320), '5 jam 20 menit');
+    assert.equal(durationLabel(30), '30 menit');
+    assert.equal(durationLabel(60), '1 jam');
 });
 
 test('schedule stays hidden from portfolio and sitemap, with explicit direct Vercel routes', () => {

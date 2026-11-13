@@ -1,5 +1,5 @@
 import { schedules } from './data.mjs';
-import { days, displayDate, displayTime, findConflicts, jakartaWeek, sessionsForDay } from './utils.mjs';
+import { days, displayDate, displayTime, durationLabel, findConflicts, jakartaWeek, minuteLabel, minutes, sessionsForDay, sharedBreaks } from './utils.mjs';
 
 /** @param {string} id */
 function required(id) {
@@ -45,6 +45,68 @@ let sessionTrigger = null;
 const courseTitle = session => session.courses.join(' + ');
 /** @param {ReturnType<typeof findConflicts>[number]} pair */
 const conflictText = pair => `${courseTitle(pair.a)} dan ${courseTitle(pair.b)} bertumpang tindih pada ${displayTime(pair.start)}-${displayTime(pair.end)} WIB (${pair.duration} menit).`;
+
+function renderSharedTime() {
+    const allSessions = Object.values(schedules).flatMap(schedule => schedule.sessions);
+    const gaps = sharedBreaks(allSessions, state.day);
+    const best = gaps.reduce((longest, gap) => !longest || gap.duration > longest.duration ? gap : longest, /** @type {typeof gaps[number] | null} */ (null));
+    required('sharedDay').textContent = `${days[state.day - 1]}, ${displayDate(week.dates[state.day - 1])} · Anton & Aura`;
+    const body = required('sharedContent');
+    const highlight = el('div', 'shared-highlight');
+    highlight.append(el('p', 'mono', best ? 'Jeda terpanjang' : 'Hari yang padat'));
+    if (best) {
+        highlight.append(el('p', 'shared-hours', `${minuteLabel(best.start)} - ${minuteLabel(best.end)}`), el('p', 'shared-duration', `${durationLabel(best.duration)} tanpa perkuliahan bersama`));
+    } else {
+        highlight.append(el('p', 'shared-no-gap', 'Belum ada jeda yang sama.'), el('p', 'shared-duration', 'Coba pilih hari lain untuk menemukan waktu bersama.'));
+    }
+
+    const timeline = el('div', 'shared-timeline');
+    const scale = el('div', 'shared-scale');
+    scale.setAttribute('aria-hidden', 'true');
+    scale.append(...['07.00', '14.00', '21.00'].map(label => el('span', '', label)));
+    timeline.append(scale);
+    for (const [key, schedule] of Object.entries(schedules)) {
+        const row = el('div', `shared-timeline-row shared-timeline-${key}`);
+        const sessions = sessionsForDay(schedule.sessions, state.day);
+        const track = el('div', 'shared-track');
+        track.setAttribute('role', 'img');
+        track.setAttribute('aria-label', `${schedule.owner}: ${sessions.length ? sessions.map(session => `${courseTitle(session)} ${displayTime(session.start)} sampai ${displayTime(session.end)}`).join(', ') : 'Tidak ada perkuliahan'}. Waktu dalam WIB.`);
+        for (const session of sessions) {
+            const start = Math.max(420, minutes(session.start));
+            const end = Math.min(1260, minutes(session.end));
+            if (end <= start) continue;
+            const bar = el('span', 'shared-busy');
+            bar.style.left = `${(start - 420) / 840 * 100}%`;
+            bar.style.width = `${(end - start) / 840 * 100}%`;
+            bar.title = `${courseTitle(session)} · ${displayTime(session.start)}-${displayTime(session.end)} WIB`;
+            bar.setAttribute('aria-hidden', 'true');
+            track.append(bar);
+        }
+        row.append(el('span', 'shared-person-label', schedule.shortName), track);
+        timeline.append(row);
+    }
+    const legend = el('p', 'shared-legend', 'Blok berwarna menandai waktu kuliah.');
+    timeline.append(legend);
+    const options = el('div', 'shared-options');
+    options.setAttribute('aria-label', 'Semua jeda tanpa perkuliahan');
+    for (const gap of gaps) {
+        const option = el('span', 'session-tag', `${minuteLabel(gap.start)}-${minuteLabel(gap.end)}`);
+        if (gap === best) option.classList.add('shared-best');
+        options.append(option);
+    }
+    body.replaceChildren(highlight, timeline, options);
+    required('sharedWeek').replaceChildren(...days.map((name, index) => {
+        const breaks = sharedBreaks(allSessions, index + 1);
+        const longest = breaks.reduce((best, gap) => !best || gap.duration > best.duration ? gap : best, /** @type {typeof breaks[number] | null} */ (null));
+        const button = el('button', 'shared-week-day');
+        button.type = 'button';
+        button.id = `shared-week-day-${index + 1}`;
+        button.setAttribute('aria-pressed', String(index + 1 === state.day));
+        button.append(el('span', '', name), el('span', '', longest ? `${minuteLabel(longest.start)}-${minuteLabel(longest.end)}` : 'Belum ada jeda'), el('small', '', longest ? durationLabel(longest.duration) : 'Pilih hari lain'));
+        button.addEventListener('click', () => selectDay(index + 1, false));
+        return button;
+    }));
+}
 
 /** @param {import('./data.mjs').Session} session @param {boolean} conflict */
 function sessionCard(session, conflict) {
@@ -116,7 +178,7 @@ function render() {
     document.querySelectorAll('[data-view]').forEach(button => {
         button.setAttribute('aria-pressed', String(/** @type {HTMLElement} */ (button).dataset.view === state.view));
     });
-    required('scheduleTitle').replaceChildren(document.createTextNode(schedule.name), el('span', '', schedule.program));
+    required('scheduleTitle').replaceChildren(document.createTextNode(schedule.owner), el('span', '', `${schedule.name} · ${schedule.program}`));
     const activeDays = new Set(schedule.sessions.map(session => session.day)).size;
     required('scheduleSummary').textContent = `${schedule.sessions.length} sesi per minggu · ${activeDays} hari perkuliahan${schedule.className ? ` · Kelas ${schedule.className}` : ''}${schedule.semester ? ` · Semester ${schedule.semester}` : ''}`;
     required('weekLabel').textContent = `${displayDate(week.dates[0], { day: 'numeric', month: 'short', year: 'numeric' })} - ${displayDate(week.dates[6], { day: 'numeric', month: 'short', year: 'numeric' })}`;
@@ -150,17 +212,18 @@ function render() {
     content.className = `schedule-content${state.view === 'weekly' ? ' schedule-weekly' : ''}`;
     const visibleDays = state.view === 'weekly' ? [1, 2, 3, 4, 5, 6, 7] : [state.day];
     content.replaceChildren(...visibleDays.map(day => daySection(day, conflicting)));
+    renderSharedTime();
     const count = state.view === 'weekly' ? schedule.sessions.length : sessionsForDay(schedule.sessions, state.day).length;
-    required('scheduleAnnouncement').textContent = `${schedule.name}, ${state.view === 'weekly' ? 'jadwal mingguan' : days[state.day - 1]}, ${count} sesi${visiblePairs.length ? `, ${visiblePairs.length} benturan jadwal` : ''}.`;
+    required('scheduleAnnouncement').textContent = `${schedule.owner}, ${schedule.name}, ${state.view === 'weekly' ? 'jadwal mingguan' : days[state.day - 1]}, ${count} sesi${visiblePairs.length ? `, ${visiblePairs.length} benturan jadwal` : ''}. Waktu bersama diperbarui untuk ${days[state.day - 1]}.`;
     refreshIcons();
     if (activeId) document.getElementById(activeId)?.focus({ preventScroll: true });
 }
 
-/** @param {number} day */
-function selectDay(day) {
+/** @param {number} day @param {boolean} [scrollToDay] */
+function selectDay(day, scrollToDay = true) {
     state.day = day;
     render();
-    if (state.view === 'weekly') {
+    if (state.view === 'weekly' && scrollToDay) {
         document.getElementById(`schedule-day-${day}`)?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     }
 }

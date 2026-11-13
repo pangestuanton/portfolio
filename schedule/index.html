@@ -42,21 +42,31 @@
     </header>
 
     <main class="container" id="scheduleMain">
-        <header class="archive-header schedule-heading">
-            <p class="section-label">Agenda akademik</p>
-            <h1>Jadwal perkuliahan.</h1>
-            <p>Rencanakan hari, lihat satu minggu. Semua waktu mengikuti WIB.</p>
+        <header class="archive-header schedule-heading schedule-personal-heading">
+            <div>
+                <p class="section-label">Pangestu Anton &amp; Aura Leviona</p>
+                <h1>Dua kampus,<br><span>satu cerita.</span></h1>
+                <p>Di antara kuliah dan cita-cita, selalu ada jeda untuk saling bercerita.</p>
+                <a class="inline-link" href="#sharedTime">Temukan waktu bersama <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="schedule-orbit" aria-hidden="true">
+                <div class="orbit-ring"></div>
+                <div class="orbit-person orbit-anton"><span>PA</span><small>ITERA</small></div>
+                <div class="orbit-connection"><i data-lucide="sparkles"></i></div>
+                <div class="orbit-person orbit-aura"><span>AL</span><small>UNILA</small></div>
+                <p>Berbeda langkah. Seirama.</p>
+            </div>
         </header>
 
         <div class="schedule-campus" role="group" aria-label="Pilih jadwal kampus">
-            <button class="campus-option" type="button" data-campus="itera" aria-pressed="true"><span>ITERA</span><small>Teknik Informatika</small></button>
-            <button class="campus-option" type="button" data-campus="unila" aria-pressed="false"><span>UNILA</span><small>PPKn · Kelas 26C</small></button>
+            <button class="campus-option" type="button" data-campus="itera" aria-pressed="true"><span>Pangestu Anton</span><small>ITERA · Teknik Informatika</small></button>
+            <button class="campus-option" type="button" data-campus="unila" aria-pressed="false"><span>Aura Leviona</span><small>UNILA · PPKn · Kelas 26C</small></button>
         </div>
 
         <section class="schedule-workspace" aria-labelledby="scheduleTitle">
             <div class="schedule-toolbar">
                 <div>
-                    <h2 id="scheduleTitle">ITERA <span>Teknik Informatika</span></h2>
+                    <h2 id="scheduleTitle">Pangestu Anton <span>ITERA · Teknik Informatika</span></h2>
                     <p class="schedule-summary" id="scheduleSummary"></p>
                 </div>
                 <div class="schedule-view" role="group" aria-label="Tampilan jadwal">
@@ -70,6 +80,19 @@
                 <button class="secondary-button" id="todayButton" type="button">Hari ini <i data-lucide="corner-down-left" aria-hidden="true"></i></button>
             </div>
             <div class="schedule-days" id="dayNavigation" role="group" aria-label="Pilih hari"></div>
+
+            <section class="shared-time" id="sharedTime" aria-labelledby="sharedTitle">
+                <div class="shared-heading">
+                    <div><p class="section-label">Ruang untuk berdua</p><h3 id="sharedTitle">Waktu bersama</h3><p id="sharedDay"></p></div>
+                    <span class="shared-symbol" aria-hidden="true"><i data-lucide="sparkles"></i></span>
+                </div>
+                <div id="sharedContent"></div>
+                <details class="shared-week">
+                    <summary>Intip jeda seminggu <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+                    <div id="sharedWeek"></div>
+                </details>
+                <p class="shared-note">Jeda tanpa perkuliahan di kedua jadwal, dalam rentang 07.00-21.00 WIB, minimal 30 menit. Sesuaikan dengan kegiatan lain dan waktu perjalanan.</p>
+            </section>
 
             <div class="schedule-conflicts" id="conflictNotice" hidden></div>
             <p class="schedule-sr-only" id="scheduleAnnouncement" role="status" aria-live="polite" aria-atomic="true"></p>
