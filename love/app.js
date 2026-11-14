@@ -1,20 +1,15 @@
-/**
- * Moments Archive - iOS Style Gallery Controller
- * Clean, modular, and dependency-free JavaScript.
- */
-
 (function () {
     'use strict';
 
     /** @typedef {{id: string, title: string, location: string, year: string, date?: string, description: string, image: string, alt?: string, driveUrl?: string, drivePreview?: string}} Moment */
     const host = /** @type {Window & {MOMENTS_DATA?: Moment[]}} */ (window);
 
-    // DOM Elements
     const galleryGrid = document.getElementById('galleryGrid');
     const statTimeline = document.getElementById('statTimeline');
     const statCount = document.getElementById('statCount');
     const statLocation = document.getElementById('statLocation');
     const sectionCounter = document.getElementById('sectionCounter');
+    const status = document.getElementById('galleryStatus');
 
     const dialog = /** @type {HTMLDialogElement | null} */ (document.getElementById('photoDialog'));
     const dialogImage = /** @type {HTMLImageElement | null} */ (document.getElementById('dialogImage'));
@@ -26,20 +21,20 @@
     /** @type {HTMLElement | null} */
     let lastTrigger = null;
 
-    /* -------------------------------------------------------------------------
-       Theme Management
-       ------------------------------------------------------------------------- */
-    // Theme, reduced motion and dialog entry effects use the shared controller.
-
-    /* -------------------------------------------------------------------------
-       Dialog / Modal Management
-       ------------------------------------------------------------------------- */
     /** @param {Moment} item @param {HTMLElement} trigger */
     function openModal(item, trigger) {
         if (!dialog || !dialogImage || !dialogTitle || !dialogDesc || !dialogMeta) return;
         lastTrigger = trigger;
 
         dialogImage.src = item.image;
+        dialogImage.hidden = false;
+        dialogImage.onerror = () => {
+            if (item.drivePreview && dialogImage.src !== item.drivePreview) dialogImage.src = item.drivePreview;
+            else {
+                dialogImage.hidden = true;
+                dialogDesc.textContent = `${item.description} Photo unavailable. Open the Drive album to view the original.`;
+            }
+        };
         dialogImage.alt = item.alt || item.title;
         dialogTitle.textContent = item.title;
         dialogDesc.textContent = item.description;
@@ -66,7 +61,6 @@
 
     if (dialog) {
         dialog.addEventListener('click', (event) => {
-            // Close when clicking directly on the backdrop
             const rect = dialog.getBoundingClientRect();
             const isInDialog = (
                 rect.top <= event.clientY &&
@@ -85,12 +79,8 @@
         });
     }
 
-    /* -------------------------------------------------------------------------
-       Stats Calculation
-       ------------------------------------------------------------------------- */
     /** @param {Moment[]} moments */
     function updateStats(moments) {
-        // Count
         if (statCount) {
             statCount.textContent = String(moments.length);
         }
@@ -99,10 +89,10 @@
             sectionCounter.textContent = `${moments.length ? '01' : '00'} / ${String(moments.length).padStart(2, '0')}`;
         }
 
-        // Years range
         const years = moments
             .map(m => parseInt(m.year, 10))
             .filter(y => !isNaN(y));
+        if (statTimeline) statTimeline.textContent = 'No dates yet';
 
         if (years.length > 0 && statTimeline) {
             const minYear = Math.min(...years);
@@ -112,30 +102,21 @@
                 : `${minYear} - ${maxYear}`;
         }
 
-        // Locations
         const uniqueLocations = new Set(moments.map(m => m.location.trim()));
         if (statLocation) {
             if (uniqueLocations.size === 1) {
                 statLocation.textContent = [...uniqueLocations][0];
             } else {
-                statLocation.textContent = `${uniqueLocations.size} Spots`;
+                statLocation.textContent = uniqueLocations.size ? `${uniqueLocations.size} locations` : 'No locations yet';
             }
         }
     }
 
-    /* -------------------------------------------------------------------------
-       Card Builder (Safe DOM Generation)
-       ------------------------------------------------------------------------- */
     /** @param {Moment} item */
     function createMomentCard(item) {
         const article = document.createElement('article');
         article.className = 'card';
-        article.tabIndex = 0;
-        article.setAttribute('role', 'button');
-        article.setAttribute('aria-haspopup', 'dialog');
-        article.setAttribute('aria-label', `View details for ${item.title}`);
 
-        // Media wrapper
         const mediaDiv = document.createElement('div');
         mediaDiv.className = 'card-media';
 
@@ -148,16 +129,22 @@
         img.alt = item.alt || item.title;
         img.loading = 'lazy';
         img.decoding = 'async';
+        img.style.aspectRatio = '4 / 3';
         img.onerror = () => {
             if (item.drivePreview && img.src !== item.drivePreview) {
                 img.src = item.drivePreview;
+            } else {
+                img.hidden = true;
+                const message = document.createElement('p');
+                message.className = 'photo-error';
+                message.textContent = 'Photo unavailable. Open details for the Drive link.';
+                mediaDiv.append(message);
             }
         };
 
         mediaDiv.appendChild(badge);
         mediaDiv.appendChild(img);
 
-        // Body wrapper
         const bodyDiv = document.createElement('div');
         bodyDiv.className = 'card-body';
 
@@ -177,7 +164,13 @@
 
         const heading = document.createElement('h3');
         heading.className = 'card-title';
-        heading.textContent = item.title;
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'moment-trigger';
+        trigger.textContent = item.title;
+        trigger.setAttribute('aria-haspopup', 'dialog');
+        trigger.setAttribute('aria-label', `View details for ${item.title}`);
+        heading.append(trigger);
 
         const desc = document.createElement('p');
         desc.className = 'card-note';
@@ -190,21 +183,11 @@
         article.appendChild(mediaDiv);
         article.appendChild(bodyDiv);
 
-        // Interactions
-        article.addEventListener('click', () => openModal(item, article));
-        article.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                openModal(item, article);
-            }
-        });
+        trigger.addEventListener('click', () => openModal(item, trigger));
 
         return article;
     }
 
-    /* -------------------------------------------------------------------------
-       Gallery Render
-       ------------------------------------------------------------------------- */
     /** @param {Moment[]} moments */
     function renderGallery(moments) {
         if (!galleryGrid) return;
@@ -225,16 +208,15 @@
         });
 
         galleryGrid.appendChild(fragment);
-        if (!moments.length) galleryGrid.textContent = 'Belum ada momen yang ditampilkan.';
+        if (!moments.length) galleryGrid.textContent = 'No memories yet. Open the Drive album to browse shared photographs.';
+        if (status) status.textContent = moments.length ? `${moments.length} ${moments.length === 1 ? 'memory' : 'memories'} loaded.` : 'No memories to display.';
         document.dispatchEvent(new CustomEvent('portfolio:render', { detail: { root: galleryGrid } }));
     }
 
-    /* -------------------------------------------------------------------------
-       Data Loader with Fallback
-       ------------------------------------------------------------------------- */
     async function loadData() {
         if (!galleryGrid) return;
         galleryGrid.setAttribute('aria-busy', 'true');
+        if (status) status.textContent = 'Loading memories.';
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 8000);
         try {
@@ -248,11 +230,13 @@
             if (host.MOMENTS_DATA && Array.isArray(host.MOMENTS_DATA)) {
                 renderGallery(host.MOMENTS_DATA);
             } else {
-                galleryGrid.textContent = 'Foto belum dapat dimuat. ';
+                galleryGrid.textContent = 'Memories could not be loaded. ';
+                if (status) status.textContent = 'Loading failed. Retry or open the Drive album.';
+                [statTimeline, statCount, statLocation].forEach(node => { if (node) node.textContent = 'Unavailable'; });
                 const retry = document.createElement('button');
                 retry.type = 'button';
                 retry.className = 'drive-button';
-                retry.textContent = 'Coba lagi';
+                retry.textContent = 'Retry loading';
                 retry.addEventListener('click', () => { galleryGrid.replaceChildren(); loadData(); }, { once: true });
                 galleryGrid.append(retry);
                 console.warn('Unable to load moments from moments.json or fallback script.', err);
@@ -263,7 +247,6 @@
         }
     }
 
-    // Initialize
     loadData();
 
 })();

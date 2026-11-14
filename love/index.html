@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,9 +7,6 @@
     <meta name="description" content="A curated collection of shared memories and photographs.">
     <meta name="theme-color" content="#f5f5f7">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
             // Fix base path if URL is /love (without trailing slash) on web server
@@ -27,7 +24,7 @@
     <link rel="stylesheet" href="../css/interactions.css">
 </head>
 <body data-theme-dark="#000000">
-    <!-- iOS Frosted Navigation Bar -->
+    <a class="skip-link" href="#mainContent">Skip to memories</a>
     <header class="nav-bar">
         <div class="container nav-content">
             <a href="../index.html" class="back-button" aria-label="Back to Portfolio">
@@ -43,8 +40,7 @@
         </div>
     </header>
 
-    <main class="container">
-        <!-- Hero Section -->
+    <main class="container" id="mainContent">
         <section class="hero">
             <span class="eyebrow">Personal Archive</span>
             <h1>Captured Moments.</h1>
@@ -60,34 +56,31 @@
             </div>
         </section>
 
-        <!-- Stats Overview Strip -->
         <div class="stats-strip" role="group" aria-label="Archive summary">
             <div class="stat-item">
-                <div class="stat-value" id="statTimeline">2026</div>
+                <div class="stat-value" id="statTimeline">Loading</div>
                 <div class="stat-label">Timeline</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value" id="statCount">1</div>
+                <div class="stat-value" id="statCount">Loading</div>
                 <div class="stat-label">Photographs</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value" id="statLocation">SMA</div>
+                <div class="stat-value" id="statLocation">Loading</div>
                 <div class="stat-label">Locations</div>
             </div>
         </div>
 
-        <!-- Section Header -->
         <div class="section-meta">
             <h2 class="section-title">Memories</h2>
-            <span class="section-counter" id="sectionCounter">01 / 01</span>
+            <span class="section-counter" id="sectionCounter"></span>
         </div>
 
-        <!-- Dynamic Gallery Grid -->
         <section class="gallery-grid" id="galleryGrid" aria-label="Photo gallery">
-            <!-- Cards rendered dynamically from JSON -->
         </section>
+        <p id="galleryStatus" role="status" aria-live="polite">Loading memories.</p>
+        <noscript><p>Enable JavaScript to view the gallery, or open the Drive album above.</p></noscript>
 
-        <!-- Clean iOS Note Box -->
         <section class="note-section" aria-label="Personal message">
             <div class="note-card">
                 <span class="note-tag">A Personal Note</span>
@@ -101,11 +94,10 @@
 
     <footer>
         <div class="container">
-            <p>© 2026 Pangestu Anton Widodo · Private Archive</p>
+            <p>© 2026 Pangestu Anton Widodo · Personal archive</p>
         </div>
     </footer>
 
-    <!-- iOS Style Lightbox Dialog -->
     <dialog id="photoDialog" class="photo-dialog" aria-labelledby="dialogTitle">
         <div class="dialog-container">
             <div class="dialog-header">
@@ -115,11 +107,11 @@
                 </button>
             </div>
             <div class="dialog-img-wrapper">
-                <img id="dialogImage" src="../assets/moments/graduate.jpg" alt="">
+                <img id="dialogImage" src="../assets/moments/graduate.jpg" alt="" style="aspect-ratio: 4/3">
             </div>
             <div class="dialog-footer">
                 <div class="dialog-info">
-                    <h3 class="dialog-title" id="dialogTitle">Detail momen</h3>
+                    <h2 class="dialog-title" id="dialogTitle">Memory details</h2>
                     <p class="dialog-desc" id="dialogDesc"></p>
                 </div>
                 <a id="dialogDriveLink" href="https://drive.google.com/drive/folders/1ePLngeOGsV-Xbj445LhmuLf_L7J7qtck?usp=drive_link" target="_blank" rel="noopener noreferrer" class="dialog-drive-btn" aria-label="Open in Google Drive">

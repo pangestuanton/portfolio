@@ -15,9 +15,6 @@
     <meta property="og:title" content="Jadwal Perkuliahan - Pangestu Anton">
     <meta property="og:description" content="Jadwal Teknik Informatika ITERA dan PPKn UNILA dalam satu halaman.">
     <meta property="og:url" content="https://antonique.web.id/schedule">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script>
         (() => {
             let saved;
@@ -36,7 +33,7 @@
         <div class="nav-shell">
             <a class="brand" href="/">Pangestu Anton</a>
             <div class="nav-actions">
-                <a class="schedule-home" href="/"><i data-lucide="arrow-left" aria-hidden="true"></i> <span>Portofolio</span></a>
+                <a class="schedule-home" href="/" aria-label="Kembali ke portofolio"><i data-lucide="arrow-left" aria-hidden="true"></i> <span>Portofolio</span></a>
                 <button class="icon-button" id="themeToggle" type="button" aria-label="Ubah tema"><i data-lucide="moon" aria-hidden="true"></i></button>
             </div>
         </div>
@@ -46,14 +43,14 @@
         <header class="archive-header schedule-heading schedule-personal-heading">
             <div>
                 <p class="section-label">Pangestu Anton &amp; Aura Leviona</p>
-                <h1>Dua kampus,<br><span>satu cerita.</span></h1>
+                <h1>Jadwal perkuliahan</h1>
                 <p>Di antara kuliah dan cita-cita, selalu ada jeda untuk saling bercerita.</p>
                 <a class="inline-link" href="#sharedTime">Temukan waktu bersama <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
             </div>
-            <div class="schedule-orbit" aria-hidden="true" data-tilt>
+            <div class="schedule-orbit" aria-hidden="true">
                 <div class="orbit-ring"></div>
                 <div class="orbit-person orbit-anton"><div class="orbit-photo"><img src="/assets/schedule/anton-aura.webp" alt="" width="1026" height="1368" decoding="async"></div><small>Anton</small></div>
-                <div class="orbit-connection"><i data-lucide="sparkles"></i></div>
+                <div class="orbit-connection"></div>
                 <div class="orbit-person orbit-aura"><div class="orbit-photo"><img src="/assets/schedule/anton-aura.webp" alt="" width="1026" height="1368" decoding="async"></div><small>Viona</small></div>
                 <p>Langkah yang berbeda untuk tujuan yang sama.</p>
             </div>
@@ -82,11 +79,14 @@
                 <button class="secondary-button" id="todayButton" type="button">Hari ini <i data-lucide="corner-down-left" aria-hidden="true"></i></button>
             </div>
             <div class="schedule-days" id="dayNavigation" role="group" aria-label="Pilih hari"></div>
+            <div class="schedule-conflicts" id="conflictNotice" hidden></div>
+            <p class="schedule-sr-only" id="scheduleAnnouncement" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="schedule-content" id="scheduleContent"><p role="status">Menyiapkan jadwal perkuliahan.</p></div>
+            <p id="scheduleError" role="alert" hidden>Jadwal belum dapat ditampilkan. Muat ulang halaman untuk mencoba lagi.</p>
 
             <section class="shared-time" id="sharedTime" aria-labelledby="sharedTitle">
                 <div class="shared-heading">
                     <div><p class="section-label">Ruang untuk berdua</p><h3 id="sharedTitle">Waktu bersama</h3><p id="sharedDay"></p></div>
-                    <span class="shared-symbol" aria-hidden="true"><i data-lucide="sparkles"></i></span>
                 </div>
                 <div id="sharedContent"></div>
                 <details class="shared-week">
@@ -96,9 +96,6 @@
                 <p class="shared-note">Jeda tanpa perkuliahan di kedua jadwal, dalam rentang 07.00-21.00 WIB, minimal 30 menit. Sesuaikan dengan kegiatan lain dan waktu perjalanan.</p>
             </section>
 
-            <div class="schedule-conflicts" id="conflictNotice" hidden></div>
-            <p class="schedule-sr-only" id="scheduleAnnouncement" role="status" aria-live="polite" aria-atomic="true"></p>
-            <div class="schedule-content" id="scheduleContent"></div>
             <noscript><p class="schedule-empty">Aktifkan JavaScript untuk melihat jadwal dan detail perkuliahan.</p></noscript>
             <div class="schedule-footnote"><i data-lucide="info" aria-hidden="true"></i><p>Jadwal berulang setiap minggu. Pilih sesi untuk melihat detail perkuliahan.</p><span>Asia/Jakarta · WIB</span></div>
         </section>

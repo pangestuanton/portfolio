@@ -397,5 +397,11 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('pagehide', stopClock);
 window.addEventListener('pageshow', startClock);
-render();
-startClock();
+try {
+    render();
+    startClock();
+} catch (error) {
+    content.replaceChildren();
+    required('scheduleError').hidden = false;
+    console.error('Jadwal tidak dapat ditampilkan.', error);
+}
