@@ -8,9 +8,9 @@ Website portfolio pribadi berbasis HTML, CSS, dan JavaScript untuk menampilkan p
 
 - Navigasi sticky dengan menu mobile
 - Hero section dengan foto dan ringkasan singkat
-- Daftar pengalaman kampus dan arsip pengalaman sekolah
+- Timeline experience dengan search dan filter
 - Section skill dan project
-- Kontak email serta tautan LinkedIn, GitHub, dan Instagram
+- Tombol kontak ke LinkedIn, GitHub, Instagram, dan WhatsApp
 - Modal case study project
 
 ## Struktur File
@@ -61,9 +61,7 @@ File berikut sudah disiapkan agar website lebih mudah diindeks oleh Google:
 
 ## Interaksi JavaScript
 
-`js/script.js` menangani tema lintas halaman dan tab, tema sistem sampai pengguna memilih tema sendiri, navigasi aktif, menu mobile dengan Escape, indikator progres scroll, dan modal. Konten langsung terlihat tanpa reveal, tilt, atau animasi orbit. Smooth scroll menghormati `prefers-reduced-motion`.
-
-`css/tokens.css` menyatukan palet dua tema, font sistem, radius, dan spacing berdasarkan DESIGN.md. Body memakai 17px, metadata 14px, dan biru dipakai untuk interaksi. Panel dibuat datar agar foto dan karya menjadi fokus. Portofolio dan galeri memakai bahasa Inggris; jadwal memakai Indonesia. Gambar Minecraft merupakan ilustrasi tematik, bukan dokumentasi acara. Logo, aset asli, data, dan logika jadwal dipertahankan.
+`js/script.js` menangani tema lintas halaman dan tab, mengikuti tema sistem sampai pengguna memilih tema sendiri, navigasi aktif, menu mobile dengan Escape, indikator progres scroll, reveal saat elemen terlihat, serta animasi masuk kartu dan modal. Foto profil dan orbit mendapat efek miring ringan mengikuti kursor pada perangkat dengan pointer presisi. Smooth scroll, reveal, hover, dan animasi orbit sebelumnya dipertahankan. Efek menghormati `prefers-reduced-motion`; konten tetap terlihat ketika JavaScript tidak berjalan. `css/interactions.css` memakai token warna yang sudah ada di tiap halaman.
 
 Event scroll digabung dalam satu listener pasif dengan `requestAnimationFrame`. Posisi bagian navigasi dihitung ulang ketika layout berubah, dan SVG yang sudah dirender tidak dibuat ulang. Galeri `/love` memakai kontrol tema yang sama, mengembalikan fokus setelah modal ditutup, membatasi waktu tunggu data, serta menyediakan fallback dan tombol coba lagi.
 
@@ -94,8 +92,6 @@ npx --yes --package typescript tsc --allowJs --checkJs --noEmit --strict --targe
 Vercel menggunakan `vercel.json` untuk me-rewrite `/schedule` dan `/schedule/` ke `/schedule/index.html`, sehingga akses langsung dan refresh tidak bergantung pada navigasi klien. Pertahankan konfigurasi proyek statis yang ada; tidak ada environment variable atau backend baru.
 
 ## Design & Pembuatan
-
-Catatan implementasi dan hasil pengujian UI tersedia di [UI-VERIFICATION.md](UI-VERIFICATION.md).
 
 - Desain dasar website ini berasal dari Google Stitch.
 - Implementasi dan generasi aset/penyesuaian dilakukan menggunakan Google Antigravity melalui MCP.

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeColor = document.querySelector('meta[name="theme-color"]');
 
     const refreshIcons = () => {
-        document.querySelectorAll('i[data-lucide]').forEach(icon => icon.setAttribute('aria-hidden', 'true'));
         if (!host.lucide || !document.querySelector('i[data-lucide]')) return;
         host.lucide.createIcons();
         // Rendered SVGs need no further replacement when new icons are added.
@@ -68,13 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu.setAttribute('aria-hidden', 'true');
         menuToggle.setAttribute('aria-expanded', 'false');
         menuToggle.setAttribute('aria-label', indonesian ? 'Buka menu' : 'Open menu');
-            menuToggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i><span>Menu</span>';
+        menuToggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
         document.body.classList.remove('menu-open');
         if (restoreFocus) menuToggle.focus();
         refreshIcons();
     };
     menuToggle?.addEventListener('click', event => {
-        event.stopPropagation();
         if (!mobileMenu) return;
         if (menuOpen()) return closeMenu(true);
         mobileMenu.classList.add('open');
@@ -82,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenu.setAttribute('aria-hidden', 'false');
         menuToggle.setAttribute('aria-expanded', 'true');
         menuToggle.setAttribute('aria-label', indonesian ? 'Tutup menu' : 'Close menu');
-        menuToggle.innerHTML = '<i data-lucide="x" aria-hidden="true"></i><span>Menu</span>';
+        menuToggle.innerHTML = '<i data-lucide="x" aria-hidden="true"></i>';
         document.body.classList.add('menu-open');
         siteHeader?.classList.remove('nav-hidden');
         if (event.detail === 0) mobileMenu.querySelector('a')?.focus();
@@ -156,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.addEventListener('scroll', requestScrollUpdate, { passive: true });
     window.addEventListener('resize', () => {
-        if (window.innerWidth >= 800) closeMenu();
+        if (window.innerWidth >= 720) closeMenu();
         refreshLayout();
     }, { passive: true });
     window.addEventListener('pageshow', refreshLayout);
@@ -166,11 +164,99 @@ document.addEventListener('DOMContentLoaded', () => {
     backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: motion.matches ? 'auto' : 'smooth' }));
     updateScroll();
 
-    const enhance = () => {
+    /** @type {Set<Animation>} */
+    const animations = new Set();
+    /** @param {HTMLElement} element @param {number} [delay] */
+    const animateIn = (element, delay = 0) => {
+        if (motion.matches || typeof element.animate !== 'function') return;
+        const animation = element.animate([
+            { opacity: 0, transform: 'translateY(8px)' },
+            { opacity: 1, transform: 'translateY(0)' },
+        ], { duration: 240, delay, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'backwards' });
+        animations.add(animation);
+        const cleanup = () => animations.delete(animation);
+        animation.addEventListener('finish', cleanup, { once: true });
+        animation.addEventListener('cancel', cleanup, { once: true });
+    };
+    /** @type {IntersectionObserver | null} */
+    let revealObserver = null;
+    if (!motion.matches && 'IntersectionObserver' in window) {
+        revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                revealObserver?.unobserve(entry.target);
+            });
+        }, { threshold: .12, rootMargin: '0px 0px -4% 0px' });
+        root.dataset.revealReady = '';
+    }
+    /** @param {ParentNode} scope @param {boolean} [enter] */
+    const enhance = (scope, enter = false) => {
+        scope.querySelectorAll('.reveal:not(.is-visible)').forEach(item => {
+            if (revealObserver && !motion.matches) revealObserver.observe(item);
+            else item.classList.add('is-visible');
+        });
+        if (enter) scope.querySelectorAll('.session-card, .card').forEach((card, index) => {
+            if (card instanceof HTMLElement) animateIn(card, Math.min(index, 4) * 24);
+        });
         refreshIcons();
         refreshLayout();
     };
-    document.addEventListener('portfolio:render', enhance);
+    document.addEventListener('portfolio:render', event => {
+        if (event instanceof CustomEvent && event.detail?.root instanceof HTMLElement) enhance(event.detail.root, true);
+    });
+    motion.addEventListener?.('change', () => {
+        if (!motion.matches) return;
+        animations.forEach(animation => animation.cancel());
+        revealObserver?.disconnect();
+        revealObserver = null;
+        delete root.dataset.revealReady;
+        document.querySelectorAll('.reveal').forEach(item => item.classList.add('is-visible'));
+    });
+
+    // Pointer-only tilt complements the existing reveal and orbit animations.
+    const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+    document.querySelectorAll('[data-tilt]').forEach(element => {
+        if (!(element instanceof HTMLElement)) return;
+        let tiltFrame = 0;
+        let x = 0;
+        let y = 0;
+        const resetTilt = () => {
+            cancelAnimationFrame(tiltFrame);
+            tiltFrame = 0;
+            delete element.dataset.tiltActive;
+            element.style.removeProperty('--tilt-x');
+            element.style.removeProperty('--tilt-y');
+        };
+        element.addEventListener('pointermove', event => {
+            if (motion.matches || !finePointer.matches || event.pointerType === 'touch') return;
+            x = event.clientX;
+            y = event.clientY;
+            if (tiltFrame) return;
+            tiltFrame = requestAnimationFrame(() => {
+                tiltFrame = 0;
+                const bounds = element.getBoundingClientRect();
+                if (!bounds.width || !bounds.height) return;
+                const px = Math.max(-.5, Math.min(.5, (x - bounds.left) / bounds.width - .5));
+                const py = Math.max(-.5, Math.min(.5, (y - bounds.top) / bounds.height - .5));
+                element.dataset.tiltActive = '';
+                element.style.setProperty('--tilt-x', `${-py * 5}deg`);
+                element.style.setProperty('--tilt-y', `${px * 5}deg`);
+            });
+        }, { passive: true });
+        element.addEventListener('pointerleave', resetTilt);
+        element.addEventListener('pointercancel', resetTilt);
+        motion.addEventListener?.('change', resetTilt);
+        finePointer.addEventListener?.('change', resetTilt);
+    });
+
+    const dialogs = [...document.querySelectorAll('dialog')];
+    if ('MutationObserver' in window && dialogs.length) {
+        const observer = new MutationObserver(records => records.forEach(record => {
+            if (record.target instanceof HTMLDialogElement && record.target.open) animateIn(record.target);
+        }));
+        dialogs.forEach(dialog => observer.observe(dialog, { attributes: true, attributeFilter: ['open'] }));
+    }
     const dialog = document.getElementById('projectDialog');
     const dialogButton = document.getElementById('projectDetailButton');
     const dialogClose = document.getElementById('dialogClose');
@@ -190,5 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
             dialogButton?.focus({ preventScroll: true });
         });
     }
-    enhance();
+    enhance(document);
 });

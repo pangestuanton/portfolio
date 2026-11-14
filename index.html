@@ -16,6 +16,9 @@
     <meta property="og:description" content="An Informatics Engineering student building web applications and automation systems.">
     <meta property="og:url" content="https://antonique.web.id/">
     <meta property="og:image" content="https://antonique.web.id/assets/figma%20boy.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (() => {
             let saved;
@@ -28,12 +31,13 @@
     <link rel="stylesheet" href="css/interactions.css">
 </head>
 <body>
-    <a class="skip-link" href="#mainContent">Skip to content</a>
     <div class="maintenance" id="maintenance" hidden>
         <section class="maintenance-card" aria-labelledby="maintenanceTitle">
-            <span class="status-chip">Under development</span>
+            <span class="status-chip"><span></span> Under development</span>
+            <p class="maintenance-progress">60%</p>
             <h1 id="maintenanceTitle">This portfolio is being updated.</h1>
             <p>I am currently updating the content and interface. In the meantime, feel free to reach me by email.</p>
+            <div class="progress-track" aria-hidden="true"><span></span></div>
             <a class="primary-button" href="mailto:pangestuanton44@gmail.com">Send an email <i data-lucide="arrow-up-right"></i></a>
         </section>
     </div>
@@ -50,7 +54,7 @@
                 </nav>
                 <div class="nav-actions">
                     <button class="icon-button" id="themeToggle" type="button" aria-label="Change theme"><i data-lucide="moon"></i></button>
-                    <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i><span>Menu</span></button>
+                    <button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu"></i></button>
                 </div>
             </div>
         </header>
@@ -62,10 +66,10 @@
             <a href="#contact">Contact <i data-lucide="arrow-right"></i></a>
         </nav>
 
-        <main id="mainContent">
+        <main>
             <section class="hero container" id="home">
                 <div class="hero-copy reveal">
-                    <span class="status-chip">Open to collaboration</span>
+                    <span class="status-chip"><span></span> Open to collaboration</span>
                     <h1>Pangestu Anton Widodo</h1>
                     <p class="hero-role">Informatics student &amp; software developer.</p>
                     <p class="hero-description">I build practical web applications and automation systems. I currently study Informatics Engineering at ITERA while working on projects and campus initiatives.</p>
@@ -78,7 +82,7 @@
                     </dl>
                 </div>
                 <figure class="hero-photo reveal">
-                    <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo" width="734" height="734" fetchpriority="high">
+                    <img src="assets/figma boy.jpeg" alt="Pangestu Anton Widodo" data-tilt>
                 </figure>
             </section>
 
@@ -107,33 +111,32 @@
             <section class="section container" id="experience">
                 <header class="section-header reveal"><p class="section-label">Experience since 2025</p><h2>Campus and organizational experience.</h2></header>
                 <div class="experience-list">
-                    <p class="illustration-note">Minecraft scenes illustrate these experiences. They are not photographs of the events.</p>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_redstone.jpg" alt="Minecraft redstone workshop illustration" width="1376" height="768" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_redstone.jpg" alt="PPLK ITERA 2026 - Minecraft Redstone Workshop" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Jul - Aug 2026</span><span>Technology</span></div><h3>PPLK ITERA 2026</h3><p class="role">Front-End Staff · IMTEK Division</p><p>Built the event website interface, adapted the layout for mobile devices, and coordinated with the technology team throughout development.</p><ul class="tag-list"><li>Front-end</li><li>Responsive UI</li><li>Teamwork</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_village.jpg" alt="Minecraft harbor village illustration" width="1376" height="768" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_village.jpg" alt="Expo GENSIP 2026 - Minecraft Harbor Village" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Dec 2025 - Jan 2026</span><span>Leadership</span></div><h3>Expo GENSIP 2026</h3><p class="role">Event Chair / Project Manager</p><p>Planned the event, assigned responsibilities, tracked the team's work, and led the campus promotion program.</p><ul class="tag-list"><li>Project planning</li><li>Coordination</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_mountains.jpg" alt="Minecraft mountain arena illustration" width="1266" height="788" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_mountains.jpg" alt="Clash of Generations 2026 - Minecraft Mountain Arena" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">May 2026</span><span>Committee</span></div><h3>Clash of Generations 2026</h3><p class="role">Field Coordinator Division</p><p>Helped manage participants and spectators during the Informatics Engineering inter-cohort mini-soccer tournament.</p><ul class="tag-list"><li>Field coordination</li><li>Event operations</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_deep_dark.png" alt="Minecraft ancient city illustration" width="1920" height="1080" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_deep_dark.png" alt="IF 2026 Cohort President Election - Minecraft Ancient City" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Jan - Feb 2026</span><span>Committee</span></div><h3>IF 2026 Cohort President Election</h3><p class="role">Field Coordinator Division</p><p>Supervised the election process and helped maintain an orderly environment throughout voting.</p><ul class="tag-list"><li>Supervision</li><li>Event operations</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_lush_cave.jpg" alt="Minecraft lush cave illustration" width="1376" height="768" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_lush_cave.jpg" alt="HMIF ITERA - Minecraft Lush Cave" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Apr 2025 - present</span><span>Organization</span></div><h3>HMIF ITERA</h3><p class="role">Member of the Informatics Student Association</p><p>Participate in association programs that develop discipline, communication, teamwork, and organizational responsibility.</p><ul class="tag-list"><li>Organization</li><li>Communication</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_welcoming_night.jpg" alt="Minecraft night gathering illustration" width="1376" height="768" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_welcoming_night.jpg" alt="Nordbyte 2025 Welcoming Night - Minecraft Night Gathering" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Oct - Nov 2025</span><span>Committee</span></div><h3>Nordbyte 2025 Welcoming Night</h3><p class="role">Field Coordinator Division</p><p>Supervised participant movement, maintained order around the venue, and supported communication between the committee and participants.</p><ul class="tag-list"><li>Field coordination</li><li>Communication</li></ul></div>
                     </article>
                     <article class="experience-item reveal">
-                        <div class="experience-media"><img src="assets/minecraft_landscape.jpg" alt="Minecraft sunrise landscape illustration" width="1376" height="768" loading="lazy"></div>
+                        <div class="experience-media"><img src="assets/minecraft_landscape.jpg" alt="First Meet Nordbyte 2025 - Minecraft Scenic Sunrise Landscape" loading="lazy"></div>
                         <div class="experience-content"><div class="item-meta"><span class="mono">Aug - Sep 2025</span><span>Committee</span></div><h3>First Meet Nordbyte 2025</h3><p class="role">Field Coordinator Division</p><p>Supported event flow, participant movement, and on-site coordination to keep the program organized.</p><ul class="tag-list"><li>Event flow</li><li>Field coordination</li></ul></div>
                     </article>
                 </div>
